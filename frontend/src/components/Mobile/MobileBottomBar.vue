@@ -1,6 +1,5 @@
 <template>
   <nav
-    v-if="showBar"
     class="flex shrink-0 items-stretch border-t border-outline-gray-1 bg-surface-white"
   >
     <button
@@ -29,9 +28,7 @@ import DealsIcon from '@/components/Icons/DealsIcon.vue'
 import ContactsIcon from '@/components/Icons/ContactsIcon.vue'
 import TaskIcon from '@/components/Icons/TaskIcon.vue'
 import MenuIcon from '@/components/Icons/MenuIcon.vue'
-import { shouldShowBottomBar } from '@/utils/mobileBottomBar'
 import { mobileSidebarOpened } from '@/composables/settings'
-import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -43,8 +40,6 @@ const tabs = [
   { label: 'Contacts', icon: ContactsIcon, route: 'Contacts' },
   { label: 'Tasks', icon: TaskIcon, route: 'Tasks' },
 ]
-
-const showBar = computed(() => shouldShowBottomBar(route.name))
 
 function isActive(tab) {
   return route.name === tab.route

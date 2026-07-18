@@ -25,6 +25,5 @@ same spot — a small manual fixup. Full workflow: `docs/development-workflow.md
 
 ## New files (never conflict)
 
-- `frontend/src/utils/mobileBottomBar.js` — bar visibility whitelist (pure)
 - `frontend/src/components/Mobile/MobileBottomBar.vue` — the bar component
-- `frontend/tests/unit/mobileBottomBar.test.js` — visibility tests
+  (shown on every CRM page in mobile view)
