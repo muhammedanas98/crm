@@ -10,7 +10,7 @@ We vendor a fork. Three places, three roles:
 | Remote | Points at | Role | What we do with it |
 |--------|-----------|------|--------------------|
 | `upstream` | `github.com/frappe/crm` | source of updates | `fetch` + `rebase` only — **never push** |
-| `origin` | `github.com/<you>/crm` (our fork) | our source of truth | `push` our `upc-crm` branch |
+| `origin` | `github.com/muhammedanas98/crm` (our fork) | our source of truth | `push` our `upc-crm` branch |
 | server | `upc.petalkube.com` bench | runs the app | `fetch` + `reset --hard` — **never commit** |
 
 Flow: **frappe/crm → (rebase) → dev machine → (push) → our fork → (reset) → server.**
@@ -31,14 +31,14 @@ edits to upstream files are limited to additive mount lines (see
 ### 1. Fork on GitHub
 
 On github.com open `github.com/frappe/crm` → **Fork** → creates
-`github.com/<you>/crm`.
+`github.com/muhammedanas98/crm`.
 
 ### 2. Wire remotes on the dev machine
 
 ```bash
 cd apps/crm
 # 'upstream' already points at frappe/crm here. Add our fork as 'origin':
-git remote add origin https://github.com/<you>/crm.git
+git remote add origin https://github.com/muhammedanas98/crm.git
 git remote -v   # expect: upstream=frappe/crm, origin=<your fork>
 ```
 
@@ -108,15 +108,39 @@ merge commits and tangles history. Always rebase.
 The server already runs stock frappe/crm. Point its `apps/crm` at our fork's
 branch **once**, then it is deploy-only forever after.
 
-### One-time on the server
+### One-time on the server: switch from stock frappe/crm to our fork
 
+The server was installed with stock `frappe/crm`, so its `apps/crm` remote
+`origin` points at `frappe/crm` on branch `develop` (or `main`). We re-point it
+at our fork and switch to `upc-crm`.
+
+**1. Inspect (read-only, safe):**
 ```bash
 cd ~/<bench>/apps/crm
-git remote add origin https://github.com/<you>/crm.git
+git remote -v              # expect origin -> frappe/crm
+git branch --show-current  # expect develop or main
+git status                 # MUST be clean — no local edits
+```
+If `git status` shows changes, stop: the server must be deploy-only. Investigate
+before continuing (do not blow away unknown local changes without checking).
+
+**2. Re-point remotes:**
+```bash
+git remote rename origin upstream                                  # frappe/crm becomes 'upstream'
+git remote add origin git@github.com:muhammedanas98/crm.git        # our fork becomes 'origin'
+# no SSH key on the server? use HTTPS (public repo, pull needs no auth):
+#   git remote add origin https://github.com/muhammedanas98/crm.git
+git remote -v                                                      # origin=fork, upstream=frappe/crm
+```
+
+**3. Switch to our branch:**
+```bash
 git fetch origin
 git checkout upc-crm
 git branch --set-upstream-to=origin/upc-crm
 ```
+
+Then run the build/apply block below.
 
 ### Every deploy (server)
 
