@@ -164,9 +164,9 @@ Workflow (vendor-a-fork pattern):
    ```
    git remote rename origin upstream
    git remote add origin <your-fork>
-   git checkout -b arizone-custom
+   git checkout -b upc-crm
    ```
-3. All customizations are small, isolated commits on `arizone-custom`.
+3. All customizations are small, isolated commits on `upc-crm`.
 4. On upstream update:
    ```
    git fetch upstream

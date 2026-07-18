@@ -27,16 +27,16 @@ Establishes the vendor-a-fork workflow so the customization survives upstream `g
 
 **Files:**
 - Create: `apps/crm/CUSTOMIZATIONS.md`
-- Git: new branch `arizone-custom` in `apps/crm`
+- Git: new branch `upc-crm` in `apps/crm`
 
 - [ ] **Step 1: Create the customization branch**
 
 Run (from `apps/crm`):
 ```bash
 cd apps/crm
-git checkout -b arizone-custom
+git checkout -b upc-crm
 ```
-Expected: `Switched to a new branch 'arizone-custom'`
+Expected: `Switched to a new branch 'upc-crm'`
 
 - [ ] **Step 2: Write `CUSTOMIZATIONS.md`**
 
@@ -44,7 +44,7 @@ Create `apps/crm/CUSTOMIZATIONS.md`:
 ```markdown
 # Arizone Customizations
 
-Local changes on top of upstream `frappe/crm`. Kept on the `arizone-custom`
+Local changes on top of upstream `frappe/crm`. Kept on the `upc-crm`
 branch. New files never conflict; edits to upstream files are limited to
 additive mount lines listed below.
 
@@ -357,5 +357,5 @@ git commit -m "$(printf 'feat: mount mobile bottom tab bar in MobileLayout\n\nCo
 ## Notes for the executor
 
 - Run all `yarn`/`vitest`/`vite` commands from `apps/crm/frontend`; run `bench build` from the bench root.
-- All work happens on the `arizone-custom` branch (created in Task 1).
+- All work happens on the `upc-crm` branch (created in Task 1).
 - If `yarn` is not the package manager in use, substitute the repo's manager (there is a `yarn.lock` in `apps/crm`, so `yarn` is expected).

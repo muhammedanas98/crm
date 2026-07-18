@@ -10,12 +10,12 @@ We vendor a fork. Three places, three roles:
 | Remote | Points at | Role | What we do with it |
 |--------|-----------|------|--------------------|
 | `upstream` | `github.com/frappe/crm` | source of updates | `fetch` + `rebase` only — **never push** |
-| `origin` | `github.com/<you>/crm` (our fork) | our source of truth | `push` our `arizone-custom` branch |
+| `origin` | `github.com/<you>/crm` (our fork) | our source of truth | `push` our `upc-crm` branch |
 | server | `upc.petalkube.com` bench | runs the app | `fetch` + `reset --hard` — **never commit** |
 
 Flow: **frappe/crm → (rebase) → dev machine → (push) → our fork → (reset) → server.**
 
-All our changes live on the branch **`arizone-custom`**. New files never conflict;
+All our changes live on the branch **`upc-crm`**. New files never conflict;
 edits to upstream files are limited to additive mount lines (see
 `CUSTOMIZATIONS.md`).
 
@@ -45,25 +45,25 @@ git remote -v   # expect: upstream=frappe/crm, origin=<your fork>
 ### 3. Create and publish the customization branch
 
 ```bash
-git checkout -b arizone-custom      # branches off the tracked upstream branch
+git checkout -b upc-crm      # branches off the tracked upstream branch
 # (make commits — see CUSTOMIZATIONS.md for what we change)
-git push -u origin arizone-custom   # publishes to our fork
+git push -u origin upc-crm   # publishes to our fork
 ```
 
 ---
 
 ## Daily development (dev machine)
 
-1. Work on the `arizone-custom` branch only.
+1. Work on the `upc-crm` branch only.
 2. Keep every customization in its **own new file** where possible; edits to
    upstream files stay limited to single mount lines.
 3. Log every touched upstream file in `CUSTOMIZATIONS.md`.
 4. Commit small; push to the fork:
 
 ```bash
-git checkout arizone-custom
+git checkout upc-crm
 # ... edit, commit ...
-git push origin arizone-custom
+git push origin upc-crm
 bench build --app crm               # rebuild frontend to see changes locally
 ```
 
@@ -76,7 +76,7 @@ Do this whenever we want the latest frappe/crm code.
 ```bash
 cd apps/crm
 git fetch upstream
-git checkout arizone-custom
+git checkout upc-crm
 git rebase upstream/develop         # replays OUR commits on top of latest frappe
 ```
 
@@ -91,14 +91,14 @@ git rebase --continue
 Then publish the updated branch and rebuild:
 
 ```bash
-git push --force-with-lease origin arizone-custom
+git push --force-with-lease origin upc-crm
 bench build --app crm
 ```
 
 `--force-with-lease` is required because rebase rewrites history. It is safe:
 it refuses to push if the fork moved underneath us.
 
-**Never** `git merge upstream/develop` into `arizone-custom` — that creates
+**Never** `git merge upstream/develop` into `upc-crm` — that creates
 merge commits and tangles history. Always rebase.
 
 ---
@@ -114,8 +114,8 @@ branch **once**, then it is deploy-only forever after.
 cd ~/<bench>/apps/crm
 git remote add origin https://github.com/<you>/crm.git
 git fetch origin
-git checkout arizone-custom
-git branch --set-upstream-to=origin/arizone-custom
+git checkout upc-crm
+git branch --set-upstream-to=origin/upc-crm
 ```
 
 ### Every deploy (server)
@@ -123,7 +123,7 @@ git branch --set-upstream-to=origin/arizone-custom
 ```bash
 cd ~/<bench>/apps/crm
 git fetch origin
-git reset --hard origin/arizone-custom     # match the fork exactly
+git reset --hard origin/upc-crm     # match the fork exactly
 cd ~/<bench>
 bench build --app crm
 bench --site upc.petalkube.com migrate      # only if DB schema changed
@@ -134,7 +134,7 @@ sudo supervisorctl restart all              # or: bench restart
 Why `reset --hard` and not `git pull`: our dev flow rebases + force-pushes, so
 the branch history is rewritten each update and a plain `pull` would fail or
 create a merge. The server holds **no local commits** (deploy-only), so
-`reset --hard origin/arizone-custom` is the clean, correct way to make it
+`reset --hard origin/upc-crm` is the clean, correct way to make it
 identical to the fork.
 
 **Golden rule:** never edit or commit on the server. All changes flow in from
@@ -147,9 +147,9 @@ the fork. That keeps `reset --hard` always safe.
 | Task | Where | Command |
 |------|-------|---------|
 | Get frappe updates | dev | `git fetch upstream && git rebase upstream/develop` |
-| Publish our changes | dev | `git push --force-with-lease origin arizone-custom` |
+| Publish our changes | dev | `git push --force-with-lease origin upc-crm` |
 | Rebuild frontend | dev/server | `bench build --app crm` |
-| Deploy | server | `git fetch origin && git reset --hard origin/arizone-custom` |
+| Deploy | server | `git fetch origin && git reset --hard origin/upc-crm` |
 | Apply DB changes | server | `bench --site upc.petalkube.com migrate` |
 | Restart | server | `sudo supervisorctl restart all` |
 
