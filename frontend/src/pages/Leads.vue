@@ -28,6 +28,8 @@
       allowedViews: ['list', 'group_by', 'kanban'],
     }"
   />
+  <!-- custom/mobile: desktop views unchanged, only gated by isMobile -->
+  <template v-if="!isMobile">
   <KanbanView
     v-if="route.params.viewType == 'kanban'"
     v-model="leads"
@@ -260,6 +262,14 @@
     name="Leads"
     :icon="LeadsIcon"
   />
+  </template>
+  <MobileLeadList
+    v-else
+    :leads="leads.data?.data || []"
+    :total-count="leads.data?.total_count || 0"
+    @open="(name) => router.push({ name: 'Lead', params: { leadId: name } })"
+    @loadMore="() => loadMore++"
+  />
   <LeadModal
     v-if="showLeadModal"
     v-model="showLeadModal"
@@ -283,6 +293,7 @@ import LeadsListView from '@/components/ListViews/LeadsListView.vue'
 import EmptyState from '@/components/ListViews/EmptyState.vue'
 import KanbanView from '@/components/Kanban/KanbanView.vue'
 import LeadModal from '@/components/Modals/LeadModal.vue'
+import MobileLeadList from '@/custom/mobile/MobileLeadList.vue'
 import ViewControls from '@/components/ViewControls.vue'
 import { useDoctypeModal } from '@/composables/doctypeModal'
 import { getMeta } from '@/stores/meta'
@@ -295,7 +306,7 @@ import { formatDate, timeAgo, website, formatTime } from '@/utils'
 import { timestampCell } from '@/composables/useTimelinePreferences'
 import { useOnboarding, useTelemetry } from 'frappe-ui/frappe'
 import { Avatar, Tooltip, Dropdown } from 'frappe-ui'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, computed, reactive, h } from 'vue'
 
 const { getFormattedPercent, getFormattedFloat, getFormattedCurrency } =
@@ -309,6 +320,10 @@ const { capture } = useTelemetry()
 const { showModal } = useDoctypeModal()
 
 const route = useRoute()
+const router = useRouter()
+// custom/mobile: same <768px convention as router.js handleMobileView.
+// ponytail: non-reactive, re-evaluates on reload (matches CRM's own pattern).
+const isMobile = window.innerWidth < 768
 
 const leadsListView = ref(null)
 const showLeadModal = ref(false)
