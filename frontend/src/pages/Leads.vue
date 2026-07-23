@@ -26,6 +26,7 @@
     :filters="{ converted: 0 }"
     :options="{
       allowedViews: ['list', 'group_by', 'kanban'],
+      hideColumnsButton: isMobile,
     }"
   />
   <!-- custom/mobile: desktop views unchanged, only gated by isMobile -->
