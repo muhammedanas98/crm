@@ -1,7 +1,11 @@
 <template>
   <LayoutHeader>
     <template #left-header>
-      <ViewBreadcrumbs v-model="viewControls" routeName="Deals" />
+      <ViewBreadcrumbs v-if="!isMobile" v-model="viewControls" routeName="Deals" />
+      <!-- custom/mobile: static title, view-switch dropdown disabled -->
+      <div v-else class="px-0.5 py-1 text-lg-medium text-ink-gray-7">
+        {{ __('Deals') }}
+      </div>
     </template>
     <template #right-header>
       <CustomActions
@@ -24,9 +28,12 @@
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Deal"
     :options="{
-      allowedViews: ['list', 'group_by', 'kanban'],
+      allowedViews: isMobile ? ['list'] : ['list', 'group_by', 'kanban'],
+      hideColumnsButton: isMobile,
     }"
   />
+  <!-- custom/mobile: desktop views unchanged, only gated by isMobile -->
+  <template v-if="!isMobile">
   <KanbanView
     v-if="route.params.viewType == 'kanban'"
     v-model="deals"
@@ -234,6 +241,14 @@
     name="Deals"
     :icon="DealsIcon"
   />
+  </template>
+  <MobileDealList
+    v-else
+    :deals="deals.data?.data || []"
+    :total-count="deals.data?.total_count || 0"
+    @open="(name) => router.push({ name: 'Deal', params: { dealId: name } })"
+    @loadMore="() => loadMore++"
+  />
   <DealModal
     v-if="showDealModal"
     v-model="showDealModal"
@@ -257,6 +272,7 @@ import DealsListView from '@/components/ListViews/DealsListView.vue'
 import EmptyState from '@/components/ListViews/EmptyState.vue'
 import KanbanView from '@/components/Kanban/KanbanView.vue'
 import DealModal from '@/components/Modals/DealModal.vue'
+import MobileDealList from '@/custom/mobile/MobileDealList.vue'
 import ViewControls from '@/components/ViewControls.vue'
 import { useDoctypeModal } from '@/composables/doctypeModal'
 import { getMeta } from '@/stores/meta'
@@ -269,7 +285,7 @@ import { formatDate, timeAgo, website, formatTime } from '@/utils'
 import { timestampCell } from '@/composables/useTimelinePreferences'
 import { useOnboarding, useTelemetry } from 'frappe-ui/frappe'
 import { Tooltip, Avatar, Dropdown } from 'frappe-ui'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, reactive, computed, h } from 'vue'
 
 const { getFormattedPercent, getFormattedFloat, getFormattedCurrency } =
@@ -283,6 +299,10 @@ const { capture } = useTelemetry()
 const { showModal } = useDoctypeModal()
 
 const route = useRoute()
+const router = useRouter()
+// custom/mobile: same <768px convention as router.js handleMobileView.
+// ponytail: non-reactive, re-evaluates on reload (matches CRM's own pattern).
+const isMobile = window.innerWidth < 768
 
 const dealsListView = ref(null)
 const showDealModal = ref(false)
