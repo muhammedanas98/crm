@@ -1,7 +1,11 @@
 <template>
   <LayoutHeader>
     <template #left-header>
-      <ViewBreadcrumbs v-model="viewControls" routeName="Tasks" />
+      <ViewBreadcrumbs v-if="!isMobile" v-model="viewControls" routeName="Tasks" />
+      <!-- custom/mobile: static title, view-switch dropdown disabled -->
+      <div v-else class="px-0.5 py-1 text-lg-medium text-ink-gray-7">
+        {{ __('Tasks') }}
+      </div>
     </template>
     <template #right-header>
       <CustomActions
@@ -24,9 +28,12 @@
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Task"
     :options="{
-      allowedViews: ['list', 'kanban'],
+      allowedViews: isMobile ? ['list'] : ['list', 'kanban'],
+      hideColumnsButton: isMobile,
     }"
   />
+  <!-- custom/mobile: desktop views unchanged, only gated by isMobile -->
+  <template v-if="!isMobile">
   <KanbanView
     v-if="$route.params.viewType == 'kanban' && rows.length"
     v-model="tasks"
@@ -181,6 +188,14 @@
     name="Tasks"
     :icon="Email2Icon"
   />
+  </template>
+  <MobileTaskList
+    v-else
+    :tasks="tasks.data?.data || []"
+    :total-count="tasks.data?.total_count || 0"
+    @open="(name) => showTask(name)"
+    @loadMore="() => loadMore++"
+  />
 </template>
 
 <script setup>
@@ -193,6 +208,7 @@ import Email2Icon from '@/components/Icons/Email2Icon.vue'
 import LayoutHeader from '@/components/LayoutHeader.vue'
 import ViewControls from '@/components/ViewControls.vue'
 import TasksListView from '@/components/ListViews/TasksListView.vue'
+import MobileTaskList from '@/custom/mobile/MobileTaskList.vue'
 import EmptyState from '@/components/ListViews/EmptyState.vue'
 import KanbanView from '@/components/Kanban/KanbanView.vue'
 import { useDoctypeModal } from '@/composables/doctypeModal'
@@ -212,6 +228,8 @@ const { updateOnboardingStep } = useOnboarding('frappecrm')
 const { capture } = useTelemetry()
 
 const router = useRouter()
+// custom/mobile: same <768px convention as router.js handleMobileView.
+const isMobile = window.innerWidth < 768
 
 const tasksListView = ref(null)
 

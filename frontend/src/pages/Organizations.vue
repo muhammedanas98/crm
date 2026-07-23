@@ -1,7 +1,11 @@
 <template>
   <LayoutHeader>
     <template #left-header>
-      <ViewBreadcrumbs v-model="viewControls" routeName="Organizations" />
+      <ViewBreadcrumbs v-if="!isMobile" v-model="viewControls" routeName="Organizations" />
+      <!-- custom/mobile: static title, view-switch dropdown disabled -->
+      <div v-else class="px-0.5 py-1 text-lg-medium text-ink-gray-7">
+        {{ __('Organizations') }}
+      </div>
     </template>
     <template #right-header>
       <CustomActions
@@ -23,7 +27,10 @@
     v-model:resizeColumn="triggerResize"
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Organization"
+    :options="isMobile ? { allowedViews: ['list'], hideColumnsButton: true } : undefined"
   />
+  <!-- custom/mobile: desktop views unchanged, only gated by isMobile -->
+  <template v-if="!isMobile">
   <OrganizationsListView
     v-if="organizations.data && rows.length"
     ref="organizationsListView"
@@ -52,6 +59,14 @@
     name="Organizations"
     :icon="OrganizationsIcon"
   />
+  </template>
+  <MobileOrganizationList
+    v-else
+    :organizations="organizations.data?.data || []"
+    :total-count="organizations.data?.total_count || 0"
+    @open="(name) => router.push({ name: 'Organization', params: { organizationId: name } })"
+    @loadMore="() => loadMore++"
+  />
   <OrganizationModal
     v-if="showOrganizationModal"
     v-model="showOrganizationModal"
@@ -65,11 +80,17 @@ import LayoutHeader from '@/components/LayoutHeader.vue'
 import OrganizationModal from '@/components/Modals/OrganizationModal.vue'
 import OrganizationsListView from '@/components/ListViews/OrganizationsListView.vue'
 import ViewControls from '@/components/ViewControls.vue'
+import MobileOrganizationList from '@/custom/mobile/MobileOrganizationList.vue'
 import { getMeta } from '@/stores/meta'
 import { formatDate, website } from '@/utils'
 import { timestampCell } from '@/composables/useTimelinePreferences'
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import EmptyState from '../components/ListViews/EmptyState.vue'
+
+const router = useRouter()
+// custom/mobile: same <768px convention as router.js handleMobileView.
+const isMobile = window.innerWidth < 768
 
 const { getFormattedPercent, getFormattedFloat, getFormattedCurrency } =
   getMeta('CRM Organization')

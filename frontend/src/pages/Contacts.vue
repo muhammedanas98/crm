@@ -1,7 +1,11 @@
 <template>
   <LayoutHeader>
     <template #left-header>
-      <ViewBreadcrumbs v-model="viewControls" routeName="Contacts" />
+      <ViewBreadcrumbs v-if="!isMobile" v-model="viewControls" routeName="Contacts" />
+      <!-- custom/mobile: static title, view-switch dropdown disabled -->
+      <div v-else class="px-0.5 py-1 text-lg-medium text-ink-gray-7">
+        {{ __('Contacts') }}
+      </div>
     </template>
     <template #right-header>
       <CustomActions
@@ -23,7 +27,10 @@
     v-model:resizeColumn="triggerResize"
     v-model:updatedPageCount="updatedPageCount"
     doctype="Contact"
+    :options="isMobile ? { allowedViews: ['list'], hideColumnsButton: true } : undefined"
   />
+  <!-- custom/mobile: desktop views unchanged, only gated by isMobile -->
+  <template v-if="!isMobile">
   <ContactsListView
     v-if="contacts.data && rows.length"
     ref="contactsListView"
@@ -52,6 +59,14 @@
     name="Contacts"
     :icon="ContactsIcon"
   />
+  </template>
+  <MobileContactList
+    v-else
+    :contacts="contacts.data?.data || []"
+    :total-count="contacts.data?.total_count || 0"
+    @open="(name) => router.push({ name: 'Contact', params: { contactId: name } })"
+    @loadMore="() => loadMore++"
+  />
   <ContactModal
     v-if="showContactModal"
     v-model="showContactModal"
@@ -68,11 +83,17 @@ import ContactModal from '@/components/Modals/ContactModal.vue'
 import ContactsListView from '@/components/ListViews/ContactsListView.vue'
 import EmptyState from '@/components/ListViews/EmptyState.vue'
 import ViewControls from '@/components/ViewControls.vue'
+import MobileContactList from '@/custom/mobile/MobileContactList.vue'
 import { getMeta } from '@/stores/meta'
 import { organizationsStore } from '@/stores/organizations.js'
 import { formatDate } from '@/utils'
 import { timestampCell } from '@/composables/useTimelinePreferences'
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+// custom/mobile: same <768px convention as router.js handleMobileView.
+const isMobile = window.innerWidth < 768
 
 const { getFormattedPercent, getFormattedFloat, getFormattedCurrency } =
   getMeta('Contact')
