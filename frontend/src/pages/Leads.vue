@@ -1,7 +1,11 @@
 <template>
   <LayoutHeader>
     <template #left-header>
-      <ViewBreadcrumbs v-model="viewControls" routeName="Leads" />
+      <ViewBreadcrumbs v-if="!isMobile" v-model="viewControls" routeName="Leads" />
+      <!-- custom/mobile: static title, view-switch dropdown disabled -->
+      <div v-else class="px-0.5 py-1 text-lg-medium text-ink-gray-7">
+        {{ __('Leads') }}
+      </div>
     </template>
     <template #right-header>
       <CustomActions
@@ -25,7 +29,7 @@
     doctype="CRM Lead"
     :filters="{ converted: 0 }"
     :options="{
-      allowedViews: ['list', 'group_by', 'kanban'],
+      allowedViews: isMobile ? ['list'] : ['list', 'group_by', 'kanban'],
       hideColumnsButton: isMobile,
     }"
   />
