@@ -10,8 +10,8 @@
       </Button>
     </div>
     <!-- custom/mobile: company logo (served by upc_branding) -->
-    <div class="flex items-center px-2">
-      <img :src="logoUrl" alt="logo" class="h-6 w-auto" />
+    <div class="flex items-center pl-1">
+      <img :src="logoUrl" alt="logo" class="h-9 w-auto" />
     </div>
     <div id="app-header" class="flex-1" />
   </div>

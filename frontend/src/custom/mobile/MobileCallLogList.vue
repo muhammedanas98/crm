@@ -24,20 +24,22 @@
             <span class="truncate font-medium text-ink-gray-9">
               {{ party(log).label || log.from || __('Unknown') }}
             </span>
-            <Badge
-              variant="subtle"
-              size="sm"
-              :theme="statusOf(log).color"
-              :label="statusOf(log).label"
-            />
+            <span class="shrink-0 text-xs text-ink-gray-5">
+              {{ dateText(log) }}
+            </span>
           </div>
           <div class="mt-1 flex items-center gap-1.5 text-sm text-ink-gray-6">
             <FeatherIcon :name="typeOf(log).icon" class="h-3.5 w-3.5 shrink-0" />
             <span>{{ typeOf(log).label }}</span>
             <span class="text-ink-gray-4">·</span>
             <span>{{ durationOf(log).label || '0:00' }}</span>
-            <span class="text-ink-gray-4">·</span>
-            <span class="truncate">{{ timeText(log) }}</span>
+            <Badge
+              class="ml-auto"
+              variant="subtle"
+              size="sm"
+              :theme="statusOf(log).color"
+              :label="statusOf(log).label"
+            />
           </div>
         </div>
       </button>
@@ -73,5 +75,8 @@ const party = (l) =>
 const statusOf = (l) => getCallLogDetail('status', l)
 const typeOf = (l) => getCallLogDetail('type', l)
 const durationOf = (l) => getCallLogDetail('duration', l)
-const timeText = (l) => (l.start_time ? formatDate(l.start_time) : '')
+const dateText = (l) => {
+  const d = l.start_time || l.creation
+  return d ? formatDate(d, 'MMM D, YYYY h:mm A') : ''
+}
 </script>
