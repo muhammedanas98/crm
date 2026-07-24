@@ -6,8 +6,12 @@
 <template>
   <div
     v-if="show"
-    class="fixed inset-x-3 z-50 mx-auto max-w-md rounded-2xl border border-outline-gray-1 bg-surface-white p-4 shadow-[0_8px_32px_-8px_rgba(17,17,17,0.28)]"
-    :style="{ bottom: 'calc(env(safe-area-inset-bottom) + 5.25rem)' }"
+    class="fixed inset-x-3 z-50 mx-auto max-w-md rounded-2xl border border-outline-gray-1 p-4 shadow-[0_8px_32px_-8px_rgba(17,17,17,0.28)]"
+    :style="{
+      bottom: 'calc(env(safe-area-inset-bottom) + 5.25rem)',
+      // opaque white, not the theme token — the card floats over page content
+      backgroundColor: '#ffffff',
+    }"
     role="dialog"
     :aria-label="__('Install arizone CRM')"
   >
