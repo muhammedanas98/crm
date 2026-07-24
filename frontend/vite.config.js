@@ -21,6 +21,11 @@ export default defineConfig(async ({ mode }) => {
           name: 'arizone CRM',
           short_name: 'arizone CRM',
           start_url: '/crm',
+          // custom: vite-pwa derives scope from --base (/assets/crm/frontend/),
+          // which does not contain start_url — browsers then discard the scope.
+          // The app is served at /crm, so scope must be /crm.
+          scope: '/crm',
+          id: '/crm',
           description: 'arizone CRM — sales pipeline, leads and deals',
           theme_color: '#fff200',
           // custom: arizone bird mark, generated from frontend/public/favicon.png

@@ -7,6 +7,9 @@ import { initSocket } from './socket'
 import router from './router'
 import translationPlugin from './translation'
 import App from './App.vue'
+// custom: registers the beforeinstallprompt listener before Vue mounts —
+// the event can fire earlier than any component.
+import '@/custom/mobile/useInstallPrompt'
 
 import {
   FrappeUI,

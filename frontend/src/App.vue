@@ -5,6 +5,8 @@
     <Layout v-else-if="session.isLoggedIn" class="isolate">
       <router-view :key="$route.fullPath" />
     </Layout>
+    <!-- custom: self-gating, renders nothing once installed or dismissed -->
+    <InstallPrompt />
     <Dialogs />
     <DoctypeModals />
     <EventNotificationPopup />
@@ -13,6 +15,7 @@
 
 <script setup>
 import NotPermitted from '@/pages/NotPermitted.vue'
+import InstallPrompt from '@/custom/mobile/InstallPrompt.vue'
 import EventNotificationPopup from '@/components/EventNotificationPopup.vue'
 import DoctypeModals from '@/components/Modals/DoctypeModals.vue'
 import { Dialogs } from '@/utils/dialogs'
