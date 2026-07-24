@@ -76,6 +76,10 @@ export default defineConfig(async ({ mode }) => {
         'lowlight',
         'interactjs',
       ],
+      // frappe-ui's TextEditor imports `~icons/*` (unplugin-icons virtual
+      // modules) which esbuild's dep pre-bundler can't resolve. Exclude it so
+      // those imports are handled by the Vite plugin at transform time instead.
+      exclude: ['frappe-ui'],
     },
     server: {
       fs: {
