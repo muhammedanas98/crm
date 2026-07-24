@@ -1,7 +1,8 @@
 <template>
   <LayoutHeader>
     <template #left-header>
-      <ViewBreadcrumbs v-model="viewControls" routeName="Call Logs" />
+      <ViewBreadcrumbs v-if="!isMobile" v-model="viewControls" routeName="Call Logs" />
+      <MobileHeader v-else title="Call Logs" />
     </template>
     <template #right-header>
       <CustomActions
@@ -23,7 +24,10 @@
     v-model:resizeColumn="triggerResize"
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Call Log"
+    :options="isMobile ? { allowedViews: ['list'], hideColumnsButton: true } : undefined"
   />
+  <!-- custom/mobile: desktop views unchanged, only gated by isMobile -->
+  <template v-if="!isMobile">
   <CallLogsListView
     v-if="callLogs.data && rows.length"
     ref="callLogsListView"
@@ -53,6 +57,14 @@
     name="Call Logs"
     :icon="PhoneIcon"
   />
+  </template>
+  <MobileCallLogList
+    v-else
+    :call-logs="callLogs.data?.data || []"
+    :total-count="callLogs.data?.total_count || 0"
+    @open="(name) => showCallLog(name)"
+    @loadMore="() => loadMore++"
+  />
   <CallLogDetailModal
     v-model="showCallLogDetailModal"
     v-model:callLog="callLog"
@@ -68,11 +80,16 @@ import ViewControls from '@/components/ViewControls.vue'
 import CallLogsListView from '@/components/ListViews/CallLogsListView.vue'
 import EmptyState from '@/components/ListViews/EmptyState.vue'
 import CallLogDetailModal from '@/components/Modals/CallLogDetailModal.vue'
+import MobileCallLogList from '@/custom/mobile/MobileCallLogList.vue'
+import MobileHeader from '@/custom/mobile/MobileHeader.vue'
 import { useDoctypeModal } from '@/composables/doctypeModal'
 import { getCallLogDetail } from '@/utils/callLog'
 import { useTelemetry } from 'frappe-ui/frappe'
 import { createResource } from 'frappe-ui'
 import { computed, ref, onMounted } from 'vue'
+
+// custom/mobile: same <768px convention as router.js handleMobileView.
+const isMobile = window.innerWidth < 768
 
 const callLogsListView = ref(null)
 
