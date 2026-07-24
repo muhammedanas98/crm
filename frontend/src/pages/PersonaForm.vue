@@ -105,7 +105,7 @@ const questions = computed(() => [
   },
   {
     key: 'team_size',
-    title: __('How many people will use Frappe CRM?'),
+    title: __('How many people will use arizone CRM?'),
     options: [
       { label: __('Just me'), value: 'just_me' },
       { label: __('2–5'), value: '2_5' },
