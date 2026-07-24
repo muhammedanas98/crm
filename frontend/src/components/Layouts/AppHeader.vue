@@ -1,5 +1,5 @@
 <template>
-  <div class="flex border-b pr-5" style="background-color: #fff200">
+  <div class="flex border-b pr-5">
     <!-- custom: company logo (served by upc_branding) -->
     <div class="flex items-center px-3">
       <img :src="logoUrl" alt="logo" class="h-6 w-auto" />
