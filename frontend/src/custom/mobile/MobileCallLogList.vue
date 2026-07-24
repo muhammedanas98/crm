@@ -5,8 +5,8 @@
   caller/receiver avatar, type icon and duration.
 -->
 <template>
-  <div class="flex h-full flex-col overflow-hidden">
-    <div class="flex-1 space-y-2 overflow-y-auto p-3">
+  <div class="flex flex-col">
+    <div class="space-y-2 p-3">
       <button
         v-for="log in callLogs"
         :key="log.name"

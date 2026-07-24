@@ -1,9 +1,14 @@
 <template>
-  <div class="flex h-screen w-screen">
+  <!-- custom/mobile: h-dvh (not h-screen/100vh) so the shell matches the real
+       visible viewport on mobile browsers with a collapsing URL bar. Keeps the
+       top bar and bottom bar pinned; only the middle region scrolls. -->
+  <div class="flex h-dvh w-full overflow-hidden">
     <MobileSidebar />
     <div class="flex h-full min-w-0 flex-1 flex-col bg-surface-base">
-      <MobileAppHeader />
-      <div class="min-w-0 flex-1 overflow-auto">
+      <div class="shrink-0">
+        <MobileAppHeader />
+      </div>
+      <div class="min-w-0 flex-1 overflow-y-auto overscroll-contain">
         <slot />
       </div>
       <MobileBottomBar />

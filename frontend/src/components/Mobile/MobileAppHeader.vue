@@ -1,16 +1,8 @@
 <template>
   <div class="flex pr-3 py-2" style="background-color: #fff200" >
-    <div class="z-20 ml-2 flex items-center justify-center">
-      <!-- <Button
-        class="size-7"
-        variant="ghosted"
-        @click="sidebarOpened = !sidebarOpened"
-      >
-        <MenuIcon class="h-4 text-ink-gray-9" />
-      </Button> -->
-    </div>
+  
     <!-- custom/mobile: company logo (served by upc_branding) -->
-    <div class="flex items-center pl-1">
+    <div class="flex items-center  pl-2">
       <img :src="logoUrl" alt="logo" class="h-10 w-auto" />
     </div>
     <div id="app-header" class="flex-1" />
