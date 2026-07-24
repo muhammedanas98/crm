@@ -1,5 +1,7 @@
-import { describe, expect, it } from 'vitest'
-import { getInstallHint } from './useInstallPrompt'
+import { beforeEach, describe, expect, it } from 'vitest'
+import { getInstallHint, isDismissed } from './useInstallPrompt'
+
+const DAY = 24 * 60 * 60 * 1000
 
 const UA = {
   iphoneSafari:
@@ -42,5 +44,33 @@ describe('getInstallHint', () => {
     expect(getInstallHint(UA.androidChrome)).toBeNull()
     // desktop Firefox cannot install PWAs at all
     expect(getInstallHint(UA.desktopFirefox)).toBeNull()
+  })
+})
+
+describe('isDismissed', () => {
+  const now = Date.parse('2026-07-24T12:00:00Z')
+
+  beforeEach(() => localStorage.clear())
+
+  it('is false when nothing was ever stored', () => {
+    expect(isDismissed(now)).toBe(false)
+  })
+
+  it('holds for 14 days, then lapses', () => {
+    localStorage.setItem('crm-install-dismissed', String(now - 13 * DAY))
+    expect(isDismissed(now)).toBe(true)
+
+    localStorage.setItem('crm-install-dismissed', String(now - 15 * DAY))
+    expect(isDismissed(now)).toBe(false)
+  })
+
+  it('remembers an actual install forever', () => {
+    localStorage.setItem('crm-install-dismissed', 'installed')
+    expect(isDismissed(now + 3650 * DAY)).toBe(true)
+  })
+
+  it('ignores a corrupt value instead of hiding the card forever', () => {
+    localStorage.setItem('crm-install-dismissed', 'yes')
+    expect(isDismissed(now)).toBe(false)
   })
 })
