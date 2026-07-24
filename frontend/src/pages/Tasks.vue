@@ -2,10 +2,7 @@
   <LayoutHeader>
     <template #left-header>
       <ViewBreadcrumbs v-if="!isMobile" v-model="viewControls" routeName="Tasks" />
-      <!-- custom/mobile: static title, view-switch dropdown disabled -->
-      <div v-else class="px-0.5 py-1 text-lg-medium text-ink-gray-7">
-        {{ __('Tasks') }}
-      </div>
+      <MobileHeader v-else title="Tasks" />
     </template>
     <template #right-header>
       <CustomActions
@@ -209,6 +206,7 @@ import LayoutHeader from '@/components/LayoutHeader.vue'
 import ViewControls from '@/components/ViewControls.vue'
 import TasksListView from '@/components/ListViews/TasksListView.vue'
 import MobileTaskList from '@/custom/mobile/MobileTaskList.vue'
+import MobileHeader from '@/custom/mobile/MobileHeader.vue'
 import EmptyState from '@/components/ListViews/EmptyState.vue'
 import KanbanView from '@/components/Kanban/KanbanView.vue'
 import { useDoctypeModal } from '@/composables/doctypeModal'

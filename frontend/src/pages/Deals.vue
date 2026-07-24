@@ -2,10 +2,7 @@
   <LayoutHeader>
     <template #left-header>
       <ViewBreadcrumbs v-if="!isMobile" v-model="viewControls" routeName="Deals" />
-      <!-- custom/mobile: static title, view-switch dropdown disabled -->
-      <div v-else class="px-0.5 py-1 text-lg-medium text-ink-gray-7">
-        {{ __('Deals') }}
-      </div>
+      <MobileHeader v-else title="Deals" />
     </template>
     <template #right-header>
       <CustomActions
@@ -273,6 +270,7 @@ import EmptyState from '@/components/ListViews/EmptyState.vue'
 import KanbanView from '@/components/Kanban/KanbanView.vue'
 import DealModal from '@/components/Modals/DealModal.vue'
 import MobileDealList from '@/custom/mobile/MobileDealList.vue'
+import MobileHeader from '@/custom/mobile/MobileHeader.vue'
 import ViewControls from '@/components/ViewControls.vue'
 import { useDoctypeModal } from '@/composables/doctypeModal'
 import { getMeta } from '@/stores/meta'

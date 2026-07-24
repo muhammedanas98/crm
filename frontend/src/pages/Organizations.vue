@@ -2,10 +2,7 @@
   <LayoutHeader>
     <template #left-header>
       <ViewBreadcrumbs v-if="!isMobile" v-model="viewControls" routeName="Organizations" />
-      <!-- custom/mobile: static title, view-switch dropdown disabled -->
-      <div v-else class="px-0.5 py-1 text-lg-medium text-ink-gray-7">
-        {{ __('Organizations') }}
-      </div>
+      <MobileHeader v-else title="Organizations" />
     </template>
     <template #right-header>
       <CustomActions
@@ -81,6 +78,7 @@ import OrganizationModal from '@/components/Modals/OrganizationModal.vue'
 import OrganizationsListView from '@/components/ListViews/OrganizationsListView.vue'
 import ViewControls from '@/components/ViewControls.vue'
 import MobileOrganizationList from '@/custom/mobile/MobileOrganizationList.vue'
+import MobileHeader from '@/custom/mobile/MobileHeader.vue'
 import { getMeta } from '@/stores/meta'
 import { formatDate, website } from '@/utils'
 import { timestampCell } from '@/composables/useTimelinePreferences'

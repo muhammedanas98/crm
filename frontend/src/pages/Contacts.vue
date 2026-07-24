@@ -2,10 +2,7 @@
   <LayoutHeader>
     <template #left-header>
       <ViewBreadcrumbs v-if="!isMobile" v-model="viewControls" routeName="Contacts" />
-      <!-- custom/mobile: static title, view-switch dropdown disabled -->
-      <div v-else class="px-0.5 py-1 text-lg-medium text-ink-gray-7">
-        {{ __('Contacts') }}
-      </div>
+      <MobileHeader v-else title="Contacts" />
     </template>
     <template #right-header>
       <CustomActions
@@ -84,6 +81,7 @@ import ContactsListView from '@/components/ListViews/ContactsListView.vue'
 import EmptyState from '@/components/ListViews/EmptyState.vue'
 import ViewControls from '@/components/ViewControls.vue'
 import MobileContactList from '@/custom/mobile/MobileContactList.vue'
+import MobileHeader from '@/custom/mobile/MobileHeader.vue'
 import { getMeta } from '@/stores/meta'
 import { organizationsStore } from '@/stores/organizations.js'
 import { formatDate } from '@/utils'
