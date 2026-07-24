@@ -6,10 +6,15 @@
       v-for="tab in tabs"
       :key="tab.route"
       class="flex flex-1 flex-col items-center justify-center gap-1 py-1.5 focus:outline-none"
-      :class="isActive(tab) ? 'text-ink-gray-9' : 'text-ink-gray-5'"
+      :class="isActive(tab) ? 'text-[#FF7878]' : 'text-ink-gray-5'"
       @click="go(tab.route)"
     >
-      <component :is="tab.icon" class="size-5" />
+      <span
+        class="flex items-center justify-center rounded-full px-4 py-1 transition-colors"
+        :class="isActive(tab) ? 'bg-[#FF7878]/15' : ''"
+      >
+        <component :is="tab.icon" class="size-5" />
+      </span>
       <span class="text-xs">{{ __(tab.label) }}</span>
     </button>
     <button
