@@ -551,6 +551,8 @@ onMounted(async () => {
   })
 
   setUp(filteredSteps)
+  // custom: don't auto-open the Getting Started modal; default closed
+  showHelpModal.value = false
 })
 
 // help center

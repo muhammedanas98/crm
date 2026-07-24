@@ -24,9 +24,8 @@ const session = sessionStore()
 provide('session', session)
 
 const { setTheme } = useTheme()
-if (!localStorage.getItem('theme')) {
-  setTheme('light')
-}
+// custom: force light theme (override any stored dark preference)
+setTheme('light')
 
 const MobileLayout = defineAsyncComponent(
   () => import('./components/Layouts/MobileLayout.vue'),
