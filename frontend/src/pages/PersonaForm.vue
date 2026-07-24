@@ -129,5 +129,5 @@ const questions = computed(() => [
   },
 ])
 
-usePageMeta(() => ({ title: __('Welcome to Frappe CRM') }))
+usePageMeta(() => ({ title: __('Welcome to arizone CRM') }))
 </script>
