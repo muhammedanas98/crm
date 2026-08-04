@@ -117,7 +117,7 @@
           </div>
           <div
             v-else-if="column.key === 'lead_name'"
-            class="truncate text-base font-medium text-ink-blue-link hover:underline"
+            class="truncate text-base font-medium text-[var(--table-header-text)] hover:underline"
             @click="
               (event) =>
                 emit('applyFilter', {

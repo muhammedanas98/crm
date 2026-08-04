@@ -7,8 +7,8 @@
 
   /* text */
   --ink-gray-9: #21232c; /* primary text */
-  --ink-gray-7: #65686f; /* secondary text */
-  --ink-gray-6: #65686f; /* secondary text */
+  --ink-gray-7: #3d3f45; /* secondary text (also: table body cells 2+) */
+  --ink-gray-6: #3d3f45; /* secondary text */
   --ink-gray-5: #93949a; /* muted / placeholder text */
   --ink-gray-4: #93949a; /* muted / placeholder text */
 
@@ -69,8 +69,8 @@
 [data-theme='dark'] {
   /* text */
   --ink-gray-9: #f0f1f3; /* primary text */
-  --ink-gray-7: #b4b7be; /* secondary text */
-  --ink-gray-6: #b4b7be; /* secondary text */
+  --ink-gray-7: #d8d9dc; /* secondary text (also: table body cells 2+) */
+  --ink-gray-6: #d8d9dc; /* secondary text */
   --ink-gray-5: #7c7f87; /* muted / placeholder text */
   --ink-gray-4: #7c7f87; /* muted / placeholder text */
 
