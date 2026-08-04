@@ -9,6 +9,7 @@
     <Button
       v-if="title == 'Emails'"
       variant="solid"
+      class="!bg-[var(--surface-green-7)] hover:!bg-[var(--surface-green-7)] active:!bg-[var(--surface-green-7)]"
       :label="__('New Email')"
       iconLeft="plus"
       @click="emailBox.show = true"
@@ -16,6 +17,7 @@
     <Button
       v-else-if="title == 'Comments'"
       variant="solid"
+      class="!bg-[var(--surface-green-7)] hover:!bg-[var(--surface-green-7)] active:!bg-[var(--surface-green-7)]"
       :label="__('New Comment')"
       iconLeft="plus"
       @click="emailBox.showComment = true"
@@ -28,6 +30,7 @@
     <Button
       v-else-if="title == 'Events'"
       variant="solid"
+      class="!bg-[var(--surface-green-7)] hover:!bg-[var(--surface-green-7)] active:!bg-[var(--surface-green-7)]"
       @click="modalRef.showEvent()"
     >
       <template #prefix>
@@ -38,6 +41,7 @@
     <Button
       v-else-if="title == 'Notes'"
       variant="solid"
+      class="!bg-[var(--surface-green-7)] hover:!bg-[var(--surface-green-7)] active:!bg-[var(--surface-green-7)]"
       :label="__('New Note')"
       iconLeft="plus"
       @click="modalRef.showNote()"
@@ -45,6 +49,7 @@
     <Button
       v-else-if="title == 'Tasks'"
       variant="solid"
+      class="!bg-[var(--surface-green-7)] hover:!bg-[var(--surface-green-7)] active:!bg-[var(--surface-green-7)]"
       :label="__('New Task')"
       iconLeft="plus"
       @click="modalRef.showTask()"
@@ -52,6 +57,7 @@
     <Button
       v-else-if="title == 'Attachments'"
       variant="solid"
+      class="!bg-[var(--surface-green-7)] hover:!bg-[var(--surface-green-7)] active:!bg-[var(--surface-green-7)]"
       :label="__('Upload Attachment')"
       iconLeft="plus"
       @click="showFilesUploader = true"
@@ -63,6 +69,7 @@
       />
       <Button
         variant="solid"
+        class="!bg-[var(--surface-green-7)] hover:!bg-[var(--surface-green-7)] active:!bg-[var(--surface-green-7)]"
         :label="__('New Message')"
         iconLeft="plus"
         @click="whatsappBox.show()"
@@ -72,7 +79,7 @@
       <template #default="{ open }">
         <Button
           variant="solid"
-          class="flex items-center gap-1"
+          class="flex items-center gap-1 !bg-[var(--surface-green-7)] hover:!bg-[var(--surface-green-7)] active:!bg-[var(--surface-green-7)]"
           :label="__('New')"
           iconLeft="plus"
           :iconRight="open ? 'chevron-up' : 'chevron-down'"
