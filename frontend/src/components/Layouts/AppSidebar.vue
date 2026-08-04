@@ -5,9 +5,12 @@
     <div class="flex justify-center p-2">
       <UserDropdown :isCollapsed="true" />
     </div>
-    <div
-      class="flex-1 overflow-y-auto overflow-x-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-    >
+    <div class="relative flex-1 overflow-hidden">
+      <div
+        ref="navScroll"
+        class="h-full overflow-y-auto overflow-x-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        @scroll="updateScrollState"
+      >
       <div class="flex flex-col px-2">
         <SidebarLink
           id="notifications-btn"
@@ -65,6 +68,18 @@
           </nav>
         </CollapsibleSection>
       </div>
+      </div>
+      <button
+        v-if="canScrollDown"
+        class="absolute inset-x-0 bottom-0 flex h-7 cursor-pointer items-center justify-center bg-gradient-to-t from-[var(--sidebar-color)] to-transparent"
+        :aria-label="__('Scroll down')"
+        @click="scrollNavDown"
+      >
+        <span
+          class="lucide-chevron-down h-4 text-white/70"
+          aria-hidden="true"
+        />
+      </button>
     </div>
     <div class="m-2 flex flex-col gap-1">
       <div class="flex flex-col gap-2 mb-1">
@@ -81,10 +96,6 @@
           v-if="isFCSite"
           :isSidebarCollapsed="true"
           :afterUpgrade="() => capture('upgrade_plan_from_trial_banner')"
-        />
-        <GettingStartedBanner
-          v-if="!isOnboardingStepsCompleted"
-          :isSidebarCollapsed="true"
         />
       </div>
       <SidebarLink
@@ -103,6 +114,9 @@
           <HelpIcon class="h-5 w-5" />
         </template>
       </SidebarLink>
+    </div>
+    <div v-if="!isOnboardingStepsCompleted" class="fixed bottom-4 right-4 z-50">
+      <GettingStartedBanner :isSidebarCollapsed="false" />
     </div>
     <Notifications />
     <Settings />
@@ -174,7 +188,15 @@ import {
   useTelemetry,
 } from 'frappe-ui/frappe'
 import router from '@/router'
-import { ref, reactive, computed, markRaw, onMounted } from 'vue'
+import {
+  ref,
+  reactive,
+  computed,
+  markRaw,
+  onMounted,
+  onBeforeUnmount,
+  nextTick,
+} from 'vue'
 
 const { getPinnedViews, getPublicViews } = viewsStore()
 const { toggle: toggleNotificationPanel } = notificationsStore()
@@ -184,6 +206,21 @@ const { send } = useBroadcast()
 const isFCSite = ref(window.is_fc_site)
 const isDemoSite = ref(window.is_demo_site)
 const showSalesHierarchyBanner = ref(!!window.show_sales_hierarchy_banner)
+
+// scroll-down affordance for the nav list, shown only while more items sit below the fold
+const navScroll = ref(null)
+const canScrollDown = ref(false)
+let navResizeObserver = null
+
+function updateScrollState() {
+  const el = navScroll.value
+  if (!el) return
+  canScrollDown.value = el.scrollHeight - el.scrollTop - el.clientHeight > 4
+}
+
+function scrollNavDown() {
+  navScroll.value?.scrollBy({ top: 160, behavior: 'smooth' })
+}
 
 const links = [
   {
@@ -519,6 +556,17 @@ onMounted(async () => {
   setUp(filteredSteps)
   // custom: don't auto-open the Getting Started modal; default closed
   showHelpModal.value = false
+})
+
+onMounted(async () => {
+  await nextTick()
+  updateScrollState()
+  navResizeObserver = new ResizeObserver(updateScrollState)
+  navResizeObserver.observe(navScroll.value)
+})
+
+onBeforeUnmount(() => {
+  navResizeObserver?.disconnect()
 })
 
 // help center
