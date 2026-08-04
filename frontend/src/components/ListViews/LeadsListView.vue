@@ -115,6 +115,22 @@
               <div>{{ item.timeAgo }}</div>
             </Tooltip>
           </div>
+          <div
+            v-else-if="column.key === 'lead_name'"
+            class="truncate text-base font-medium text-ink-blue-link hover:underline"
+            @click="
+              (event) =>
+                emit('applyFilter', {
+                  event,
+                  idx,
+                  column,
+                  item,
+                  firstColumn: columns[0],
+                })
+            "
+          >
+            {{ item.label }}
+          </div>
           <div v-else-if="column.key === '_liked_by'">
             <Button
               v-if="column.key == '_liked_by'"

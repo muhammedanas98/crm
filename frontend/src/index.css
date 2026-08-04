@@ -48,6 +48,65 @@
 
   /* modal scrim */
   --modal-scrim: rgba(33, 35, 44, 0.48);
+
+  /* page title (ViewBreadcrumbs) */
+  --page-title-text: rgba(33, 35, 44, 0.72);
+}
+
+/*
+ * Dark-mode counterparts. The app currently forces light theme (App.vue),
+ * but frappe-ui's own tokens still theme-flip via [data-theme="dark"], and
+ * our :root overrides above would otherwise win over frappe-ui's dark
+ * values (equal selector specificity, later in source order) and leave
+ * light-mode colors stuck on screen if dark mode is ever enabled.
+ * --sidebar-color/--sidebar-active-color and --modal-scrim are unchanged:
+ * the rail is dark by design in both themes, and the scrim already has a
+ * separate dark: class in frappe-ui's Dialog that we don't touch.
+ */
+[data-theme='dark'] {
+  /* text */
+  --ink-gray-9: #f0f1f3; /* primary text */
+  --ink-gray-7: #b4b7be; /* secondary text */
+  --ink-gray-6: #b4b7be; /* secondary text */
+  --ink-gray-5: #7c7f87; /* muted / placeholder text */
+  --ink-gray-4: #7c7f87; /* muted / placeholder text */
+
+  /* secondary (in-app) sidebar background */
+  --surface-gray-1: #1c1e26;
+  /* generic hover / subtle fill (also: selected/active list row) */
+  --surface-gray-2: #232b3d;
+  /* list row hover (unselected) */
+  --surface-sidebar: #1e2430;
+  /* list row hover while selected */
+  --surface-gray-3: #2b3650;
+
+  /* borders / dividers */
+  --outline-gray-2: rgba(255, 255, 255, 0.12);
+  --outline-elevation-2: rgba(255, 255, 255, 0.12);
+
+  /* link / info */
+  --ink-blue-link: #5b9ef0;
+
+  /* primary action (green) */
+  --surface-green-7: #2d8647; /* solid, unchanged */
+  --surface-green-2: #1f4a2b; /* light variant -> dark tint */
+  --outline-green-3: #3a6b45; /* border */
+  --ink-green-8: #4ade80; /* success text, lightened */
+
+  /* danger (red) */
+  --surface-red-7: #d83c38; /* solid, unchanged */
+  --surface-red-2: #4a211f; /* soft -> dark tint */
+
+  /* warning (amber) */
+  --surface-amber-2: #3a2e05; /* bg */
+  --ink-amber-8: #ffc94d; /* text, lightened */
+
+  /* active nav item */
+  --active-nav-bg: #1b2a45;
+  --active-nav-text: #7eb4f5;
+
+  /* page title (ViewBreadcrumbs) */
+  --page-title-text: rgba(240, 241, 243, 0.82);
 }
 
 /* modal scrim isn't CSS-var-backed in frappe-ui; override the utility class directly */
