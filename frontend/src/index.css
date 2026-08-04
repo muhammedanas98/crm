@@ -1,8 +1,54 @@
 @import 'frappe-ui/style.css';
 
 :root {
-  --sidebar-color: #2b2154;
-  --sidebar-active-color: #4a3b9e;
+  /* rail (primary sidebar) */
+  --sidebar-color: #211c52;
+  --sidebar-active-color: #6150e1;
+
+  /* text */
+  --ink-gray-9: #21232c; /* primary text */
+  --ink-gray-7: #65686f; /* secondary text */
+  --ink-gray-6: #65686f; /* secondary text */
+  --ink-gray-5: #93949a; /* muted / placeholder text */
+  --ink-gray-4: #93949a; /* muted / placeholder text */
+
+  /* secondary (in-app) sidebar background */
+  --surface-gray-1: #f5f5f6;
+  /* generic hover / subtle fill */
+  --surface-gray-2: #eff6ff;
+
+  /* borders / dividers */
+  --outline-gray-2: rgba(33, 35, 44, 0.14);
+  --outline-elevation-2: rgba(33, 35, 44, 0.14);
+
+  /* link / info */
+  --ink-blue-link: #2b74da;
+
+  /* primary action (green) */
+  --surface-green-7: #2d8647; /* solid */
+  --surface-green-2: #82b886; /* light variant */
+  --outline-green-3: #bedfbd; /* border */
+  --ink-green-8: #077838; /* success text */
+
+  /* danger (red) */
+  --surface-red-7: #d83c38; /* solid */
+  --surface-red-2: #fb8b80; /* soft */
+
+  /* warning (amber) */
+  --surface-amber-2: #fff6d6; /* bg */
+  --ink-amber-8: #945b00; /* text */
+
+  /* active nav item (no dedicated frappe-ui token covers this bg/text pair) */
+  --active-nav-bg: #e1eeff;
+  --active-nav-text: #0d68c5;
+
+  /* modal scrim */
+  --modal-scrim: rgba(33, 35, 44, 0.48);
+}
+
+/* modal scrim isn't CSS-var-backed in frappe-ui; override the utility class directly */
+.bg-black-overlay-200 {
+  background-color: var(--modal-scrim) !important;
 }
 
 @layer components {

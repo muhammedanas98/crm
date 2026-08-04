@@ -4,7 +4,8 @@ import { reactive, ref } from 'vue'
 const settings = ref({})
 const brand = reactive({})
 
-const DEFAULT_SIDEBAR_COLOR = '#2B2154'
+const DEFAULT_SIDEBAR_COLOR = '#211C52'
+const DEFAULT_SIDEBAR_ACTIVE_COLOR = '#6150E1'
 
 const _settings = createDocumentResource({
   doctype: 'FCRM Settings',
@@ -75,7 +76,9 @@ export function getSettings() {
     )
     document.documentElement.style.setProperty(
       '--sidebar-active-color',
-      lightenColor(brand.sidebarColor, 0.2),
+      brand.sidebarColor === DEFAULT_SIDEBAR_COLOR
+        ? DEFAULT_SIDEBAR_ACTIVE_COLOR
+        : lightenColor(brand.sidebarColor, 0.2),
     )
   }
 

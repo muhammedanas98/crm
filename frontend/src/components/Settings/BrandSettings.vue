@@ -64,7 +64,7 @@
             v-model="settings.doc.sidebar_color"
             type="text"
             size="md"
-            placeholder="#2B2154"
+            placeholder="#211C52"
           />
         </div>
       </div>

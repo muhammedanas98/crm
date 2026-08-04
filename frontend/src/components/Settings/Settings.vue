@@ -27,8 +27,8 @@
                 class="w-full"
                 :class="
                   activeTab?.label == item.label
-                    ? 'bg-surface-elevation-3 shadow-sm hover:bg-surface-elevation-3'
-                    : 'hover:bg-surface-gray-3'
+                    ? 'bg-[var(--active-nav-bg)] text-[var(--active-nav-text)] shadow-sm hover:bg-[var(--active-nav-bg)]'
+                    : 'hover:bg-surface-gray-2'
                 "
                 @click="activeSettingsPage = item.label"
               />

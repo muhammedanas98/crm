@@ -81,7 +81,7 @@
    "label": "Favicon"
   },
   {
-   "default": "#2B2154",
+   "default": "#211C52",
    "description": "Background color of the left sidebar",
    "fieldname": "sidebar_color",
    "fieldtype": "Color",

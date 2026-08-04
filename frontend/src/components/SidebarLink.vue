@@ -1,13 +1,13 @@
 <template>
   <button
     v-if="rail"
-    class="flex w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-xl px-1 py-2.5 duration-300 ease-in-out focus:outline-none focus:transition-none focus-visible:rounded-xl focus-visible:ring-2"
+    class="mx-auto flex h-14 w-16 cursor-pointer flex-col items-center justify-center gap-1 rounded-lg duration-300 ease-in-out focus:outline-none focus:transition-none focus-visible:rounded-lg focus-visible:ring-2"
     :class="[
       dark ? 'text-white/70 focus-visible:ring-white/30' : 'text-ink-gray-8 focus-visible:ring-outline-gray-3',
       isActive
         ? dark
           ? 'bg-[var(--sidebar-active-color)] text-white shadow-sm'
-          : 'bg-surface-elevation-3 text-ink-gray-9 shadow-sm'
+          : 'bg-[var(--active-nav-bg)] text-[var(--active-nav-text)] shadow-sm'
         : dark
           ? 'hover:bg-white/10'
           : 'hover:bg-surface-gray-2',
@@ -22,7 +22,7 @@
     </span>
     <span
       lang="en"
-      class="w-full break-words text-center text-[11px] leading-tight [hyphens:auto]"
+      class="w-full break-words px-1 text-center text-[11px] leading-tight [hyphens:auto]"
       >{{ label }}</span
     >
   </button>
@@ -34,7 +34,7 @@
       isActive
         ? dark
           ? 'bg-[var(--sidebar-active-color)] text-white shadow-sm'
-          : 'bg-surface-elevation-3 shadow-sm'
+          : 'bg-[var(--active-nav-bg)] text-[var(--active-nav-text)] shadow-sm'
         : dark
           ? 'hover:bg-white/10'
           : 'hover:bg-surface-gray-2',
