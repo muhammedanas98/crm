@@ -128,6 +128,22 @@
             </Tooltip>
           </div>
           <div
+            v-else-if="column.key === 'organization'"
+            class="truncate text-base font-medium text-[var(--table-header-text)] hover:underline"
+            @click="
+              (event) =>
+                emit('applyFilter', {
+                  event,
+                  idx,
+                  column,
+                  item,
+                  firstColumn: columns[0],
+                })
+            "
+          >
+            {{ item.label }}
+          </div>
+          <div
             v-else-if="column.key === 'sla_status'"
             class="truncate text-base"
           >

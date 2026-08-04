@@ -31,7 +31,7 @@
           <template #default="{ label }">
             <div
               v-if="column.key === 'title'"
-              class="truncate text-base flex gap-2 w-full"
+              class="truncate text-base font-medium text-[var(--table-header-text)] flex gap-2 w-full"
             >
               <span class="max-w-[90%] truncate">
                 {{ label }}

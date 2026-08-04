@@ -92,6 +92,22 @@
             </Tooltip>
           </div>
           <div
+            v-else-if="column.key === 'title'"
+            class="truncate text-base font-medium text-[var(--table-header-text)] hover:underline"
+            @click="
+              (event) =>
+                emit('applyFilter', {
+                  event,
+                  idx,
+                  column,
+                  item,
+                  firstColumn: columns[0],
+                })
+            "
+          >
+            {{ label }}
+          </div>
+          <div
             v-else-if="column.type === 'Text Editor'"
             class="truncate text-base h-4 [&>p]:truncate"
             v-html="sanitizeHTML(item)"

@@ -73,6 +73,22 @@
               <div>{{ item.timeAgo }}</div>
             </Tooltip>
           </div>
+          <div
+            v-else-if="column.key === 'caller'"
+            class="truncate text-base font-medium text-[var(--table-header-text)] hover:underline"
+            @click="
+              (event) =>
+                emit('applyFilter', {
+                  event,
+                  idx,
+                  column,
+                  item,
+                  firstColumn: columns[0],
+                })
+            "
+          >
+            {{ item.label }}
+          </div>
           <div v-else-if="column.key === 'status'" class="truncate text-base">
             <Badge
               :variant="'subtle'"
