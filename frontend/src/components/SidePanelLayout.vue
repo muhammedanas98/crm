@@ -30,7 +30,7 @@
             <slot v-bind="{ section }">
               <FadedScrollableDiv
                 v-if="section.columns?.[0].fields.length"
-                class="column flex flex-col gap-1.5 overflow-y-auto"
+                class="column flex flex-col gap-1.5"
               >
                 <template
                   v-for="field in section.columns[0].fields || []"
@@ -672,12 +672,5 @@ function firstVisibleIndex() {
 :deep(.form-control button svg) {
   color: white;
   width: 0;
-}
-
-.sections .section .column {
-  max-height: 300px;
-}
-.sections .section:last-of-type .column {
-  max-height: none;
 }
 </style>
