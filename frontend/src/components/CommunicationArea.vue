@@ -20,6 +20,14 @@
         @click="toggleCommentBox()"
       />
     </div>
+    <Button
+      v-if="canDelete"
+      variant="subtle"
+      theme="red"
+      :label="__('Delete')"
+      iconLeft="lucide-trash-2"
+      @click="$emit('delete')"
+    />
   </div>
   <div
     v-show="showEmailBox"
@@ -95,12 +103,13 @@ import { ref, watch, computed } from 'vue'
 
 const props = defineProps({
   doctype: { type: String, default: 'CRM Lead' },
+  canDelete: { type: Boolean, default: false },
 })
 
 const doc = defineModel({ type: Object, default: () => ({}) })
 const reload = defineModel('reload', { type: Boolean })
 
-const emit = defineEmits(['scroll'])
+const emit = defineEmits(['scroll', 'delete'])
 
 const { getUser } = usersStore()
 const { updateOnboardingStep } = useOnboarding('frappecrm')

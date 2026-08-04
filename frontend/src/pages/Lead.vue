@@ -94,6 +94,7 @@
           :tabs="tabs"
           @beforeSave="beforeStatusChange"
           @afterSave="reloadResources"
+          @delete="deleteLead"
         />
       </template>
     </Tabs>

@@ -401,7 +401,9 @@
       v-model="doc"
       v-model:reload="reload_email"
       :doctype="doctype"
+      :canDelete="canDelete"
       @scroll="scroll"
+      @delete="$emit('delete')"
     />
     <WhatsAppBox
       v-if="title == 'WhatsApp'"
@@ -508,14 +510,20 @@ const props = defineProps({
   tabs: { type: Array, default: () => [] },
 })
 
-const emit = defineEmits(['beforeSave', 'afterSave'])
+const emit = defineEmits(['beforeSave', 'afterSave', 'delete'])
 
 const route = useRoute()
 
 const reload = defineModel('reload', { type: Boolean, default: false })
 const tabIndex = defineModel('tabIndex', { type: Number, default: 0 })
 
-const { document: _document } = useDocument(props.doctype, props.docname)
+const { document: _document, permissions } = useDocument(
+  props.doctype,
+  props.docname,
+)
+const canDelete = computed(
+  () => permissions.data?.permissions?.delete || false,
+)
 
 const doc = computed(() => _document.doc || {})
 
