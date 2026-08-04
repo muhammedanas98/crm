@@ -1,31 +1,31 @@
 <template>
   <div
-    class="relative flex h-full flex-col justify-between transition-all duration-300 ease-in-out"
-    :class="isSidebarCollapsed ? 'w-12' : 'w-[220px]'"
+    class="relative flex h-full w-[88px] flex-shrink-0 flex-col justify-between"
   >
-    <div class="p-2">
-      <UserDropdown :isCollapsed="isSidebarCollapsed" />
+    <div class="flex justify-center p-2">
+      <UserDropdown :isCollapsed="true" />
     </div>
-    <div class="flex-1 overflow-y-auto">
-      <div class="flex flex-col">
+    <div
+      class="flex-1 overflow-y-auto overflow-x-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
+      <div class="flex flex-col px-2">
         <SidebarLink
           id="notifications-btn"
           :label="__('Notifications')"
           :icon="NotificationsIcon"
-          :isCollapsed="isSidebarCollapsed"
+          rail
           dark
-          class="relative mx-2 my-[1.5px]"
+          class="my-[1.5px]"
           @click="() => toggleNotificationPanel()"
         >
-          <template #right>
+          <template #badge>
             <Badge
-              v-if="!isSidebarCollapsed && unreadNotificationsCount"
+              v-if="unreadNotificationsCount"
               :label="unreadNotificationsCount"
-              variant="subtle"
-            />
-            <div
-              v-else-if="unreadNotificationsCount"
-              class="absolute -left-1.5 top-1 z-20 h-[5px] w-[5px] translate-x-6 translate-y-1 rounded-full bg-surface-gray-9 ring-1 ring-white"
+              theme="blue"
+              variant="solid"
+              size="sm"
+              class="absolute -right-2 -top-1.5"
             />
           </template>
         </SidebarLink>
@@ -40,32 +40,27 @@
           <template #header="{ opened, hide, toggle }">
             <div
               v-if="!hide"
-              class="flex items-center cursor-pointer gap-1.5 text-base text-white/50 transition-all duration-300 ease-in-out"
-              :class="
-                isSidebarCollapsed
-                  ? 'h-0 overflow-hidden opacity-0'
-                  : 'px-4 pt-[11px] pb-2.5 w-auto opacity-100'
-              "
+              class="flex items-center cursor-pointer justify-center gap-1 px-2 pt-[11px] pb-2 text-[11px] text-white/50 transition-all duration-300 ease-in-out"
               @click="toggle()"
             >
               <span
-                class="lucide-chevron-right h-4 text-white/70 transition-all duration-300 ease-in-out"
+                class="lucide-chevron-right h-3 text-white/70 transition-all duration-300 ease-in-out"
                 :class="{ 'rotate-90': opened }"
                 aria-hidden="true"
               />
               <span>{{ __(view.name) }}</span>
             </div>
           </template>
-          <nav class="flex flex-col">
+          <nav class="flex flex-col px-2">
             <SidebarLink
               v-for="link in view.views"
               :key="link.label"
               :icon="link.icon"
               :label="__(link.label)"
               :to="link.to"
-              :isCollapsed="isSidebarCollapsed"
+              rail
               dark
-              class="mx-2 my-[1.5px]"
+              class="my-[1.5px]"
             />
           </nav>
         </CollapsibleSection>
@@ -75,40 +70,28 @@
       <div class="flex flex-col gap-2 mb-1">
         <SalesHierarchyBanner
           v-if="showSalesHierarchyBanner"
-          :isSidebarCollapsed="isSidebarCollapsed"
+          :isSidebarCollapsed="true"
         />
         <SignupBanner
           v-if="isDemoSite"
-          :isSidebarCollapsed="isSidebarCollapsed"
+          :isSidebarCollapsed="true"
           :afterSignup="() => capture('signup_from_demo_site')"
         />
         <TrialBanner
           v-if="isFCSite"
-          :isSidebarCollapsed="isSidebarCollapsed"
+          :isSidebarCollapsed="true"
           :afterUpgrade="() => capture('upgrade_plan_from_trial_banner')"
         />
         <GettingStartedBanner
           v-if="!isOnboardingStepsCompleted"
-          :isSidebarCollapsed="isSidebarCollapsed"
+          :isSidebarCollapsed="true"
         />
       </div>
       <SidebarLink
-        v-if="isManager() && isDemoDataCreated"
-        dark
-        class="text-ink-red-4 hover:bg-red-500/20 focus:bg-red-500/20"
-        :label="__('Clear Demo Data')"
-        :isCollapsed="isSidebarCollapsed"
-        @click="() => clearDemoData()"
-      >
-        <template #icon>
-          <BrushCleaningIcon class="h-4 w-4" />
-        </template>
-      </SidebarLink>
-      <SidebarLink
         v-if="isOnboardingStepsCompleted"
+        rail
         dark
         :label="__('Help')"
-        :isCollapsed="isSidebarCollapsed"
         @click="
           () => {
             showHelpModal = minimize ? true : !showHelpModal
@@ -117,23 +100,7 @@
         "
       >
         <template #icon>
-          <HelpIcon class="h-4 w-4" />
-        </template>
-      </SidebarLink>
-      <SidebarLink
-        dark
-        :label="isSidebarCollapsed ? __('Expand') : __('Collapse')"
-        :isCollapsed="isSidebarCollapsed"
-        class=""
-        @click="isSidebarCollapsed = !isSidebarCollapsed"
-      >
-        <template #icon>
-          <span class="grid h-4 w-4 flex-shrink-0 place-items-center">
-            <CollapseSidebar
-              class="h-4 w-4 text-white/70 duration-300 ease-in-out"
-              :class="{ '[transform:rotateY(180deg)]': isSidebarCollapsed }"
-            />
-          </span>
+          <HelpIcon class="h-5 w-5" />
         </template>
       </SidebarLink>
     </div>
@@ -159,7 +126,6 @@
 </template>
 
 <script setup>
-import BrushCleaningIcon from '~icons/lucide/brush-cleaning'
 import LucideLayoutDashboard from '~icons/lucide/layout-dashboard'
 import CRMLogo from '@/components/Icons/CRMLogo.vue'
 import InviteIcon from '@/components/Icons/InviteIcon.vue'
@@ -179,7 +145,6 @@ import NoteIcon from '@/components/Icons/NoteIcon.vue'
 import TaskIcon from '@/components/Icons/TaskIcon.vue'
 import CalendarIcon from '@/components/Icons/CalendarIcon.vue'
 import PhoneIcon from '@/components/Icons/PhoneIcon.vue'
-import CollapseSidebar from '@/components/Icons/CollapseSidebar.vue'
 import NotificationsIcon from '@/components/Icons/NotificationsIcon.vue'
 import HelpIcon from '@/components/Icons/HelpIcon.vue'
 import SidebarLink from '@/components/SidebarLink.vue'
@@ -209,17 +174,12 @@ import {
   useTelemetry,
 } from 'frappe-ui/frappe'
 import router from '@/router'
-import { useStorage } from '@vueuse/core'
-import { useDemoData } from '@/composables/demoData'
 import { ref, reactive, computed, markRaw, onMounted } from 'vue'
 
 const { getPinnedViews, getPublicViews } = viewsStore()
 const { toggle: toggleNotificationPanel } = notificationsStore()
 const { capture } = useTelemetry()
-const { clearDemoData, isDemoDataCreated } = useDemoData()
 const { send } = useBroadcast()
-
-const isSidebarCollapsed = useStorage('isSidebarCollapsed', false)
 
 const isFCSite = ref(window.is_fc_site)
 const isDemoSite = ref(window.is_demo_site)

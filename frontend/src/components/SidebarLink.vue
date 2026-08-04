@@ -1,5 +1,33 @@
 <template>
   <button
+    v-if="rail"
+    class="flex w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-xl px-1 py-2.5 duration-300 ease-in-out focus:outline-none focus:transition-none focus-visible:rounded-xl focus-visible:ring-2"
+    :class="[
+      dark ? 'text-white/70 focus-visible:ring-white/30' : 'text-ink-gray-8 focus-visible:ring-outline-gray-3',
+      isActive
+        ? dark
+          ? 'bg-[var(--sidebar-active-color)] text-white shadow-sm'
+          : 'bg-surface-elevation-3 text-ink-gray-9 shadow-sm'
+        : dark
+          ? 'hover:bg-white/10'
+          : 'hover:bg-surface-gray-2',
+    ]"
+    @click="handleClick"
+  >
+    <span class="relative flex items-center justify-center">
+      <slot name="icon">
+        <Icon :icon="icon" class="flex items-center size-5" />
+      </slot>
+      <slot name="badge" />
+    </span>
+    <span
+      lang="en"
+      class="w-full break-words text-center text-[11px] leading-tight [hyphens:auto]"
+      >{{ label }}</span
+    >
+  </button>
+  <button
+    v-else
     class="flex h-7.5 cursor-pointer items-center rounded duration-300 ease-in-out focus:outline-none focus:transition-none focus-visible:rounded focus-visible:ring-2"
     :class="[
       dark ? 'text-white/80 focus-visible:ring-white/30' : 'text-ink-gray-8 focus-visible:ring-outline-gray-3',
@@ -19,9 +47,12 @@
     >
       <div class="flex items-center truncate">
         <Tooltip :text="label" placement="right" :disabled="!isCollapsed">
-          <slot name="icon">
-            <Icon :icon="icon" class="flex items-center size-4" />
-          </slot>
+          <span class="relative flex items-center">
+            <slot name="icon">
+              <Icon :icon="icon" class="flex items-center size-4.5" />
+            </slot>
+            <slot name="badge" />
+          </span>
         </Tooltip>
         <Tooltip
           :text="label"
@@ -62,6 +93,7 @@ const props = defineProps({
   to: { type: [Object, String], default: null },
   isCollapsed: { type: Boolean, default: false },
   dark: { type: Boolean, default: false },
+  rail: { type: Boolean, default: false },
 })
 
 function handleClick() {

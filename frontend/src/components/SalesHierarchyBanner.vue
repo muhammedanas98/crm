@@ -25,7 +25,12 @@
       </template>
     </Button>
   </div>
-  <Button v-else-if="isSidebarCollapsed && showBanner" @click="openBlog">
+  <Button
+    v-else-if="isSidebarCollapsed && showBanner"
+    variant="ghost"
+    class="w-full !text-white/70 hover:!bg-white/10"
+    @click="openBlog"
+  >
     <span class="lucide-info h-4 my-0.5 shrink-0" aria-hidden="true" />
   </Button>
 </template>

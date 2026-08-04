@@ -16,7 +16,9 @@
           <div>
             <UserDropdown class="p-2" :isCollapsed="!sidebarOpened" />
           </div>
-          <div class="flex-1 overflow-y-auto">
+          <div
+            class="flex-1 overflow-y-auto overflow-x-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
             <div class="mb-3 flex flex-col">
               <SidebarLink
                 id="notifications-btn"

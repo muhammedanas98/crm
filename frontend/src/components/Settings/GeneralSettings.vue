@@ -125,15 +125,39 @@
           />
         </div>
       </div>
+      <template v-if="isManager() && isDemoDataCreated">
+        <div class="h-px border-t mx-2 border-outline-gray-modals" />
+        <div class="flex gap-4 items-center justify-between py-3 px-2">
+          <div class="flex flex-col">
+            <div class="text-p-base font-medium text-ink-gray-7 truncate">
+              {{ __('Clear Demo Data') }}
+            </div>
+            <div class="text-p-sm text-ink-gray-5">
+              {{ __('Remove the sample leads, deals and other demo records') }}
+            </div>
+          </div>
+          <div>
+            <Button
+              :label="__('Clear Demo Data')"
+              theme="red"
+              @click="() => clearDemoData()"
+            />
+          </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script setup>
 import { getSettings } from '@/stores/settings'
-import { FormControl, Switch, toast } from 'frappe-ui'
+import { useDemoData } from '@/composables/demoData'
+import { usersStore } from '@/stores/users'
+import { Button, FormControl, Switch, toast } from 'frappe-ui'
 
 const { _settings: settings } = getSettings()
+const { clearDemoData, isDemoDataCreated } = useDemoData()
+const { isManager } = usersStore()
 
 const timestampFormatOptions = [
   { label: __('Relative'), value: 'Relative' },
