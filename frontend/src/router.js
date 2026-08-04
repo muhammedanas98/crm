@@ -262,7 +262,8 @@ router.beforeEach(async (to, from, next) => {
       }
 
       const doctype = doctypeMap[to.name]
-      let defaultViewType = 'list'
+      let defaultViewType =
+        to.name === 'Deals' && window.innerWidth >= 768 ? 'kanban' : 'list'
 
       let globalDefault = getDefaultView()
       if (globalDefault && globalDefault.route_name === to.name) {
