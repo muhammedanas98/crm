@@ -1,7 +1,7 @@
 <template>
   <button
     v-if="rail"
-    class="mx-auto flex h-14 w-16 cursor-pointer flex-col items-center justify-center gap-1 rounded-lg duration-300 ease-in-out focus:outline-none focus:transition-none focus-visible:rounded-lg focus-visible:ring-2"
+    class="mx-auto flex h-14 w-[74px] cursor-pointer flex-col items-center justify-center gap-1 rounded-lg duration-300 ease-in-out focus:outline-none focus:transition-none focus-visible:rounded-lg focus-visible:ring-2"
     :class="[
       dark ? 'text-white/70 focus-visible:ring-white/30' : 'text-ink-gray-8 focus-visible:ring-outline-gray-3',
       isActive
@@ -20,11 +20,12 @@
       </slot>
       <slot name="badge" />
     </span>
-    <span
-      lang="en"
-      class="w-full break-words px-1 text-center text-[11px] leading-tight [hyphens:auto]"
-      >{{ label }}</span
-    >
+    <Tooltip :text="label" placement="right" :hoverDelay="0.3">
+      <span
+        class="block w-full truncate px-0.5 text-center text-[11px] leading-tight"
+        >{{ label }}</span
+      >
+    </Tooltip>
   </button>
   <button
     v-else
