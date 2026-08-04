@@ -42,96 +42,25 @@
       </Dropdown>
     </template>
   </LayoutHeader>
-  <div v-if="doc.name" class="flex h-full overflow-hidden">
-    <Tabs
-      v-model="tabIndex"
-      as="div"
-      :tabs="tabs"
-      class="flex flex-1 overflow-hidden flex-col [&_[role='tab']]:px-0 [&_[role='tab']]:shrink-0 [&_[role='tablist']]:px-5 [&_[role='tablist']::-webkit-scrollbar]:h-0 [&_[role='tablist']]:min-h-[45px] [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
+  <div
+    v-if="doc.name"
+    ref="dealContentEl"
+    class="flex h-full overflow-hidden"
+  >
+    <Resizer
+      side="left"
+      class="flex flex-col justify-between border-r"
+      unit="percent"
+      :defaultWidth="30"
+      :minWidth="25"
+      :maxWidth="60"
+      :parent="dealContentEl"
     >
-      <template #tab-panel>
-        <Activities
-          ref="activities"
-          v-model:reload="reload"
-          v-model:tabIndex="tabIndex"
-          doctype="CRM Deal"
-          :docname="dealId"
-          :tabs="tabs"
-          @beforeSave="beforeStatusChange"
-          @afterSave="reloadResources"
-        />
-      </template>
-    </Tabs>
-    <Resizer side="right" class="flex flex-col justify-between border-l">
       <div
         class="flex h-[45px] cursor-copy items-center border-b px-5 py-2.5 text-lg-medium text-ink-gray-9"
         @click="copyToClipboard(dealId)"
       >
         {{ __(dealId) }}
-      </div>
-      <div class="flex items-center justify-start gap-5 border-b p-5">
-        <Tooltip :text="__('Organization Logo')">
-          <div class="group relative size-12">
-            <Avatar
-              size="3xl"
-              class="size-12"
-              :label="title"
-              :image="doc.organization_logo || organization?.organization_logo"
-            />
-          </div>
-        </Tooltip>
-        <div class="flex flex-col gap-2.5 truncate text-ink-gray-9">
-          <Tooltip :text="organization?.name || __('Set an Organization')">
-            <div class="truncate text-3xl-medium">
-              {{ title }}
-            </div>
-          </Tooltip>
-          <div class="flex gap-1.5">
-            <Button
-              v-if="callEnabled"
-              :tooltip="__('Make a Call')"
-              :icon="PhoneIcon"
-              @click="triggerCall"
-            />
-
-            <Button
-              :tooltip="__('Send an Email')"
-              :icon="Email2Icon"
-              @click="
-                doc.email
-                  ? openEmailBox()
-                  : toast.error(
-                      __('Please set an email address to send emails'),
-                    )
-              "
-            />
-
-            <Button
-              :tooltip="__('Go to Website')"
-              :icon="LinkIcon"
-              @click="
-                doc.website
-                  ? openWebsite(doc.website)
-                  : toast.error(__('Please set a website to visit'))
-              "
-            />
-
-            <Button
-              :tooltip="__('Attach a File')"
-              :icon="AttachmentIcon"
-              @click="showFilesUploader = true"
-            />
-
-            <Button
-              v-if="canDelete"
-              :tooltip="__('Delete')"
-              variant="subtle"
-              icon="lucide-trash-2"
-              theme="red"
-              @click="deleteDeal"
-            />
-          </div>
-        </div>
       </div>
       <SLASection
         v-if="doc.sla_status"
@@ -291,6 +220,26 @@
         </SidePanelLayout>
       </div>
     </Resizer>
+    <Tabs
+      v-model="tabIndex"
+      as="div"
+      :tabs="tabs"
+      class="flex flex-1 overflow-hidden flex-col [&_[role='tab']]:px-0 [&_[role='tab']]:shrink-0 [&_[role='tablist']]:px-5 [&_[role='tablist']::-webkit-scrollbar]:h-0 [&_[role='tablist']]:min-h-[45px] [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
+    >
+      <template #tab-panel>
+        <Activities
+          ref="activities"
+          v-model:reload="reload"
+          v-model:tabIndex="tabIndex"
+          doctype="CRM Deal"
+          :docname="dealId"
+          :tabs="tabs"
+          @beforeSave="beforeStatusChange"
+          @afterSave="reloadResources"
+          @delete="deleteDeal"
+        />
+      </template>
+    </Tabs>
   </div>
   <ErrorPage
     v-else-if="errorTitle"
@@ -357,7 +306,6 @@ import TaskIcon from '@/components/Icons/TaskIcon.vue'
 import NoteIcon from '@/components/Icons/NoteIcon.vue'
 import WhatsAppIcon from '@/components/Icons/WhatsAppIcon.vue'
 import IndicatorIcon from '@/components/Icons/IndicatorIcon.vue'
-import LinkIcon from '@/components/Icons/LinkIcon.vue'
 import ArrowUpRightIcon from '@/components/Icons/ArrowUpRightIcon.vue'
 import SuccessIcon from '@/components/Icons/SuccessIcon.vue'
 import AttachmentIcon from '@/components/Icons/AttachmentIcon.vue'
@@ -375,7 +323,6 @@ import SLASection from '@/components/SLASection.vue'
 import CustomActions from '@/components/CustomActions.vue'
 import EnrichFromWebsite from '@/components/EnrichFromWebsite.vue'
 import {
-  openWebsite,
   setupCustomizations,
   copyToClipboard,
   isTranslatable,
@@ -387,12 +334,10 @@ import { statusesStore } from '@/stores/statuses'
 import { getMeta } from '@/stores/meta'
 import { useDocument } from '@/data/document'
 import { whatsappEnabled } from '@/composables/whatsapp'
-import { callEnabled } from '@/composables/telephony'
 import { useBroadcast } from '@/composables/useBroadcast'
 import {
   createResource,
   Dropdown,
-  Tooltip,
   Avatar,
   Tabs,
   Breadcrumbs,
@@ -401,21 +346,13 @@ import {
   toast,
 } from 'frappe-ui'
 import { useOnboarding } from 'frappe-ui/frappe'
-import {
-  ref,
-  computed,
-  h,
-  onMounted,
-  onBeforeUnmount,
-  nextTick,
-  watch,
-} from 'vue'
+import { ref, computed, h, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useActiveTabManager } from '@/composables/useActiveTabManager'
 
 const { on } = useBroadcast()
 const { brand } = getSettings()
-const { $dialog, $socket, makeCall } = globalStore()
+const { $dialog, $socket } = globalStore()
 const { statusOptions, getDealStatus } = statusesStore()
 const { doctypeMeta } = getMeta('CRM Deal')
 
@@ -437,13 +374,10 @@ const {
   triggerOnChange,
   triggerOnRender,
   assignees,
-  permissions,
   document,
   scripts,
   error,
 } = useDocument('CRM Deal', props.dealId)
-
-const canDelete = computed(() => permissions.data?.permissions?.delete || false)
 
 const doc = computed(() => document.doc || {})
 
@@ -482,24 +416,6 @@ watch(
   },
   { once: true },
 )
-
-const organizationDocument = ref(null)
-
-watch(
-  () => doc.value.organization,
-  (org) => {
-    if (org && !organizationDocument.value?.doc) {
-      let { document: _organizationDocument } = useDocument(
-        'CRM Organization',
-        org,
-      )
-      organizationDocument.value = _organizationDocument
-    }
-  },
-  { immediate: true },
-)
-
-const organization = computed(() => organizationDocument.value?.doc || {})
 
 onMounted(async () => {
   $socket.on('crm_customer_created', () => {
@@ -726,23 +642,6 @@ const dealContacts = createResource({
 
 if (!dealContacts.data) dealContacts.fetch()
 
-function triggerCall() {
-  let primaryContact = dealContacts.data?.find((c) => c.is_primary)
-  let mobile_no = primaryContact.mobile_no || null
-
-  if (!primaryContact) {
-    toast.error(__('No Primary Contact Set'))
-    return
-  }
-
-  if (!mobile_no) {
-    toast.error(__('No Mobile Number Set'))
-    return
-  }
-
-  makeCall(mobile_no)
-}
-
 async function triggerStatusChange(value) {
   await triggerOnChange('status', value)
   setLostReason()
@@ -780,14 +679,7 @@ function deleteDeal() {
 }
 
 const activities = ref(null)
-
-function openEmailBox() {
-  let currentTab = tabs.value[tabIndex.value]
-  if (!['Emails', 'Comments', 'Activities'].includes(currentTab.name)) {
-    activities.value.changeTabTo('emails')
-  }
-  nextTick(() => (activities.value.emailBox.show = true))
-}
+const dealContentEl = ref(null)
 
 function statusLabel(status) {
   if (isTranslatable('CRM Deal Status')) return __(status)

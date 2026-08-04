@@ -25,6 +25,10 @@
       v-if="organization.doc"
       :parent="$refs.parentRef"
       class="flex h-full flex-col overflow-hidden border-r"
+      unit="percent"
+      :defaultWidth="30"
+      :minWidth="25"
+      :maxWidth="60"
     >
       <div class="border-b">
         <FileUploader
