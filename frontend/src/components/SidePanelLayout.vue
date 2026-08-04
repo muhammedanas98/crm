@@ -1,5 +1,7 @@
 <template>
-  <div class="sections flex flex-col overflow-y-auto">
+  <div
+    class="sections flex flex-col overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+  >
     <template v-for="(section, i) in _sections" :key="section.name">
       <div v-if="section.visible" class="section flex flex-col">
         <div
