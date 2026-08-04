@@ -27,6 +27,7 @@
   "brand_name",
   "brand_logo",
   "favicon",
+  "sidebar_color",
   "calendar_tab",
   "default_reminder_section",
   "default_calendar_view",
@@ -78,6 +79,13 @@
    "fieldname": "favicon",
    "fieldtype": "Attach",
    "label": "Favicon"
+  },
+  {
+   "default": "#2B2154",
+   "description": "Background color of the left sidebar",
+   "fieldname": "sidebar_color",
+   "fieldtype": "Color",
+   "label": "Sidebar Color"
   },
   {
    "default": "0",

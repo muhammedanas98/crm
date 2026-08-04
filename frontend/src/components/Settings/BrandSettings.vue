@@ -44,6 +44,32 @@
       </div>
       <div class="h-px border-t border-outline-elevation-2" />
 
+      <!-- sidebar color -->
+      <div class="flex items-center justify-between gap-8">
+        <div class="flex flex-col">
+          <div class="text-p-base-medium text-ink-gray-7 truncate">
+            {{ __('Sidebar Color') }}
+          </div>
+          <div class="text-p-sm text-ink-gray-5">
+            {{ __('Background color of the left sidebar.') }}
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <input
+            v-model="settings.doc.sidebar_color"
+            type="color"
+            class="size-7 cursor-pointer rounded border border-outline-elevation-2 bg-transparent p-0.5"
+          />
+          <FormControl
+            v-model="settings.doc.sidebar_color"
+            type="text"
+            size="md"
+            placeholder="#2B2154"
+          />
+        </div>
+      </div>
+      <div class="h-px border-t border-outline-elevation-2" />
+
       <!-- logo -->
       <div class="flex flex-col justify-between gap-4">
         <div class="flex items-center flex-1 gap-5">

@@ -13,6 +13,7 @@
           :label="__('Notifications')"
           :icon="NotificationsIcon"
           :isCollapsed="isSidebarCollapsed"
+          dark
           class="relative mx-2 my-[1.5px]"
           @click="() => toggleNotificationPanel()"
         >
@@ -39,7 +40,7 @@
           <template #header="{ opened, hide, toggle }">
             <div
               v-if="!hide"
-              class="flex items-center cursor-pointer gap-1.5 text-base text-ink-gray-5 transition-all duration-300 ease-in-out"
+              class="flex items-center cursor-pointer gap-1.5 text-base text-white/50 transition-all duration-300 ease-in-out"
               :class="
                 isSidebarCollapsed
                   ? 'h-0 overflow-hidden opacity-0'
@@ -48,7 +49,7 @@
               @click="toggle()"
             >
               <span
-                class="lucide-chevron-right h-4 text-ink-gray-9 transition-all duration-300 ease-in-out"
+                class="lucide-chevron-right h-4 text-white/70 transition-all duration-300 ease-in-out"
                 :class="{ 'rotate-90': opened }"
                 aria-hidden="true"
               />
@@ -63,6 +64,7 @@
               :label="__(link.label)"
               :to="link.to"
               :isCollapsed="isSidebarCollapsed"
+              dark
               class="mx-2 my-[1.5px]"
             />
           </nav>
@@ -92,7 +94,8 @@
       </div>
       <SidebarLink
         v-if="isManager() && isDemoDataCreated"
-        class="text-ink-red-6 hover:bg-surface-red-2 focus:bg-surface-red-2"
+        dark
+        class="text-ink-red-4 hover:bg-red-500/20 focus:bg-red-500/20"
         :label="__('Clear Demo Data')"
         :isCollapsed="isSidebarCollapsed"
         @click="() => clearDemoData()"
@@ -103,6 +106,7 @@
       </SidebarLink>
       <SidebarLink
         v-if="isOnboardingStepsCompleted"
+        dark
         :label="__('Help')"
         :isCollapsed="isSidebarCollapsed"
         @click="
@@ -117,6 +121,7 @@
         </template>
       </SidebarLink>
       <SidebarLink
+        dark
         :label="isSidebarCollapsed ? __('Expand') : __('Collapse')"
         :isCollapsed="isSidebarCollapsed"
         class=""
@@ -125,7 +130,7 @@
         <template #icon>
           <span class="grid h-4 w-4 flex-shrink-0 place-items-center">
             <CollapseSidebar
-              class="h-4 w-4 text-ink-gray-7 duration-300 ease-in-out"
+              class="h-4 w-4 text-white/70 duration-300 ease-in-out"
               :class="{ '[transform:rotateY(180deg)]': isSidebarCollapsed }"
             />
           </span>

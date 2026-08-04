@@ -1,5 +1,10 @@
 @import 'frappe-ui/style.css';
 
+:root {
+  --sidebar-color: #2b2154;
+  --sidebar-active-color: #4a3b9e;
+}
+
 @layer components {
   .prose-f {
     @apply break-all

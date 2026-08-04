@@ -1,9 +1,16 @@
 <template>
   <button
-    class="flex h-7.5 cursor-pointer items-center rounded text-ink-gray-8 duration-300 ease-in-out focus:outline-none focus:transition-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-outline-gray-3"
-    :class="
-      isActive ? 'bg-surface-elevation-3 shadow-sm' : 'hover:bg-surface-gray-2'
-    "
+    class="flex h-7.5 cursor-pointer items-center rounded duration-300 ease-in-out focus:outline-none focus:transition-none focus-visible:rounded focus-visible:ring-2"
+    :class="[
+      dark ? 'text-white/80 focus-visible:ring-white/30' : 'text-ink-gray-8 focus-visible:ring-outline-gray-3',
+      isActive
+        ? dark
+          ? 'bg-[var(--sidebar-active-color)] text-white shadow-sm'
+          : 'bg-surface-elevation-3 shadow-sm'
+        : dark
+          ? 'hover:bg-white/10'
+          : 'hover:bg-surface-gray-2',
+    ]"
     @click="handleClick"
   >
     <div
@@ -13,10 +20,7 @@
       <div class="flex items-center truncate">
         <Tooltip :text="label" placement="right" :disabled="!isCollapsed">
           <slot name="icon">
-            <Icon
-              :icon="icon"
-              class="flex items-center size-4 text-ink-gray-8"
-            />
+            <Icon :icon="icon" class="flex items-center size-4" />
           </slot>
         </Tooltip>
         <Tooltip
@@ -57,6 +61,7 @@ const props = defineProps({
   label: { type: String, default: '' },
   to: { type: [Object, String], default: null },
   isCollapsed: { type: Boolean, default: false },
+  dark: { type: Boolean, default: false },
 })
 
 function handleClick() {

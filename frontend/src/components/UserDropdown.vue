@@ -7,8 +7,8 @@
           isCollapsed
             ? 'w-auto px-0'
             : open
-              ? 'w-full px-2 bg-surface-base shadow-sm'
-              : 'w-full px-2 hover:bg-surface-gray-3'
+              ? 'w-full px-2 bg-white/10 shadow-sm'
+              : 'w-full px-2 hover:bg-white/10'
         "
       >
         <BrandLogo v-model="brand" class="h-8 max-w-16 flex-shrink-0" />
@@ -20,10 +20,10 @@
               : 'ml-2 w-auto opacity-100'
           "
         >
-          <div class="text-base-medium leading-none text-ink-gray-9 truncate">
+          <div class="text-base-medium leading-none text-white truncate">
             {{ __(brand.name || 'CRM') }}
           </div>
-          <div class="mt-1 text-sm leading-none text-ink-gray-7 truncate">
+          <div class="mt-1 text-sm leading-none text-white/60 truncate">
             {{ user.full_name }}
           </div>
         </div>
@@ -36,7 +36,7 @@
           "
         >
           <span
-            class="lucide-chevron-down size-4 text-ink-gray-5"
+            class="lucide-chevron-down size-4 text-white/60"
             aria-hidden="true"
           />
         </div>
