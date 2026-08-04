@@ -14,8 +14,12 @@
 
   /* secondary (in-app) sidebar background */
   --surface-gray-1: #f5f5f6;
-  /* generic hover / subtle fill */
+  /* generic hover / subtle fill (also: selected/active list row) */
   --surface-gray-2: #eff6ff;
+  /* list row hover (unselected) */
+  --surface-sidebar: #f3f8ff;
+  /* list row hover while selected */
+  --surface-gray-3: #dcebff;
 
   /* borders / dividers */
   --outline-gray-2: rgba(33, 35, 44, 0.14);

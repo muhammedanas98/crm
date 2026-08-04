@@ -218,8 +218,8 @@
 
 <script setup>
 import HeartIcon from '@/components/Icons/HeartIcon.vue'
-import MultipleAvatar from '@/components/MultipleAvatar.vue'
 import IndicatorIcon from '@/components/Icons/IndicatorIcon.vue'
+import MultipleAvatar from '@/components/MultipleAvatar.vue'
 import PhoneIcon from '@/components/Icons/PhoneIcon.vue'
 import RatingInput from '@/components/Controls/RatingInput.vue'
 import ListBulkActions from '@/components/ListBulkActions.vue'
