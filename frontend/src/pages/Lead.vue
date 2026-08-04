@@ -48,7 +48,11 @@
     </template>
   </LayoutHeader>
   <div v-if="doc.name" class="flex h-full overflow-hidden">
-    <Resizer class="flex flex-col justify-between border-r" side="left">
+    <Resizer
+      class="flex flex-col justify-between border-r"
+      side="left"
+      :defaultWidth="400"
+    >
       <div
         class="flex h-[45px] cursor-copy items-center border-b px-5 py-2.5 text-lg-medium text-ink-gray-9"
         @click="copyToClipboard(leadId)"
