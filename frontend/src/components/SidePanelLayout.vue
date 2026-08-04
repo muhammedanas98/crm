@@ -38,7 +38,7 @@
                 >
                   <div
                     v-if="field.visible"
-                    class="field flex items-center gap-2 px-3 leading-5 first:mt-3"
+                    class="field flex items-center gap-1 px-3 leading-5 first:mt-3"
                   >
                     <Tooltip
                       v-if="!['Button', 'HTML'].includes(field.fieldtype)"
@@ -46,7 +46,7 @@
                       :hoverDelay="1"
                     >
                       <div
-                        class="w-[35%] min-w-20 shrink-0 flex items-center gap-0.5"
+                        class="w-[25%] min-w-20 shrink-0 flex items-center gap-0.5"
                       >
                         <div class="truncate text-sm text-ink-gray-5">
                           {{ __(field.label) }}
@@ -68,7 +68,7 @@
                         'flex items-center justify-between',
                         ['Button', 'HTML'].includes(field.fieldtype)
                           ? 'w-full'
-                          : 'w-[65%]',
+                          : 'w-[75%]',
                       ]"
                     >
                       <div
