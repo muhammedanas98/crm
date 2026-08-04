@@ -51,6 +51,9 @@
 
   /* page title (ViewBreadcrumbs) */
   --page-title-text: rgba(33, 35, 44, 0.72);
+
+  /* table header cells */
+  --table-header-text: #000;
 }
 
 /*
@@ -107,6 +110,9 @@
 
   /* page title (ViewBreadcrumbs) */
   --page-title-text: rgba(240, 241, 243, 0.82);
+
+  /* table header cells */
+  --table-header-text: #ffffff;
 }
 
 /* modal scrim isn't CSS-var-backed in frappe-ui; override the utility class directly */
@@ -149,6 +155,7 @@ body {
 .text-sm.text-ink-gray-5 {
   font-size: 12px;
   font-weight: 600;
+  color: var(--table-header-text);
 }
 
 @layer components {
