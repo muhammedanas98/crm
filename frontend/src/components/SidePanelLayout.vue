@@ -3,11 +3,11 @@
     class="sections flex flex-col overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
   >
     <template v-for="(section, i) in _sections" :key="section.name">
-      <div v-if="section.visible" class="section flex flex-col">
-        <div
-          v-if="i !== firstVisibleIndex()"
-          class="w-full section-border h-px border-t"
-        />
+      <div
+        v-if="section.visible"
+        class="section mx-2 mb-2 flex flex-col rounded-lg bg-surface-gray-1"
+        :class="{ 'mt-2': i === firstVisibleIndex() }"
+      >
         <div class="p-1 sm:p-3">
           <CollapsibleSection
             labelClass="px-2 font-semibold"
