@@ -13,6 +13,7 @@
         variant="solid"
         :label="__('Create')"
         iconLeft="plus"
+        class="!bg-[var(--surface-green-7)] hover:!bg-[var(--surface-green-7)] active:!bg-[var(--surface-green-7)]"
         @click="createTask"
       />
     </template>

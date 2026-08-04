@@ -9,6 +9,10 @@
           variant="solid"
           :label="__('Create')"
           :disabled="isCreateDisabled"
+          :class="
+            !isCreateDisabled &&
+            '!bg-[var(--surface-green-7)] hover:!bg-[var(--surface-green-7)] active:!bg-[var(--surface-green-7)]'
+          "
           @click="newEvent"
         >
           <template #prefix
