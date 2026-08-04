@@ -14,7 +14,7 @@
             <div v-if="!tab.hideLabel && i != 0" class="mx-1 mb-0.5 mt-[5px]" />
             <div
               v-if="!tab.hideLabel"
-              class="h-7.5 px-2 py-[7px] my-[3px] flex cursor-pointer gap-1.5 text-xs-medium text-ink-gray-5 transition-all duration-300 ease-in-out sticky top-0 z-10 bg-surface-gray-1"
+              class="h-7.5 px-2 py-[7px] my-[3px] flex cursor-pointer gap-1.5 text-sm-semibold uppercase tracking-wide text-ink-gray-6 transition-all duration-300 ease-in-out sticky top-0 z-10 bg-surface-gray-1"
             >
               <span>{{ __(tab.label) }}</span>
             </div>

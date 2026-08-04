@@ -11,7 +11,10 @@
     <CollapsibleSection
       class="flex sm:flex-row flex-col gap-4 text-lg-medium"
       :class="{ 'px-3 sm:px-5': hasTabs }"
-      :labelClass="['text-lg font-medium', { 'px-3 sm:px-5': hasTabs }]"
+      :labelClass="[
+        'text-sm-semibold uppercase tracking-wide',
+        { 'px-3 sm:px-5': hasTabs },
+      ]"
       :label="section.label"
       :hideLabel="section.hideLabel || !section.label"
       :opened="section.opened"

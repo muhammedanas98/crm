@@ -55,6 +55,43 @@
   background-color: var(--modal-scrim) !important;
 }
 
+/*
+ * Typography: frappe-ui bakes font-weight/size literally into each generated
+ * utility class (no CSS var indirection like colors have), so the "regular"
+ * weight can't be retuned via Tailwind config. Body copy default: 450
+ * (vs frappe-ui's 420) is most of the visual signature.
+ */
+html,
+body {
+  font-weight: 450;
+}
+.text-tiny,
+.text-2xs,
+.text-xs,
+.text-sm,
+.text-base,
+.text-md,
+.text-lg,
+.text-xl,
+.text-2xl,
+.text-p-tiny,
+.text-p-2xs,
+.text-p-xs,
+.text-p-sm,
+.text-p-base,
+.text-p-md,
+.text-p-lg,
+.text-p-xl,
+.text-p-2xl {
+  font-weight: 450;
+}
+
+/* table header cells (frappe-ui ListHeaderItem, no override hook exposed) */
+.text-sm.text-ink-gray-5 {
+  font-size: 12px;
+  font-weight: 600;
+}
+
 @layer components {
   .prose-f {
     @apply break-all

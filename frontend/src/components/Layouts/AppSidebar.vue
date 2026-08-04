@@ -28,7 +28,7 @@
               theme="blue"
               variant="solid"
               size="sm"
-              class="absolute -right-2 -top-1.5"
+              class="absolute -right-2 -top-1.5 !text-[10px] !font-semibold"
             />
           </template>
         </SidebarLink>

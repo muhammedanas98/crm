@@ -23,6 +23,7 @@
     <Tooltip :text="label" placement="right" :hoverDelay="0.3">
       <span
         class="block w-full truncate px-0.5 text-center text-[11px] leading-tight"
+        :class="dark ? 'text-white' : ''"
         >{{ label }}</span
       >
     </Tooltip>
