@@ -22,7 +22,7 @@
     </div>
     <Button
       v-if="canDelete"
-      variant="subtle"
+      variant="solid"
       theme="red"
       :label="__('Delete')"
       iconLeft="lucide-trash-2"
