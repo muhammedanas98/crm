@@ -48,11 +48,19 @@
       />
     </template>
   </LayoutHeader>
-  <div v-if="doc.name" class="flex h-full overflow-hidden">
+  <div
+    v-if="doc.name"
+    ref="leadContentEl"
+    class="flex h-full overflow-hidden"
+  >
     <Resizer
       class="flex flex-col justify-between border-r"
       side="left"
-      :defaultWidth="400"
+      unit="percent"
+      :defaultWidth="35"
+      :minWidth="25"
+      :maxWidth="60"
+      :parent="leadContentEl"
     >
       <div
         class="flex h-[45px] cursor-copy items-center border-b px-5 py-2.5 text-lg-medium text-ink-gray-9"
@@ -199,6 +207,7 @@ const props = defineProps({
 
 const reload = ref(false)
 const activities = ref(null)
+const leadContentEl = ref(null)
 const errorTitle = ref('')
 const errorMessage = ref('')
 const showDeleteLinkedDocModal = ref(false)

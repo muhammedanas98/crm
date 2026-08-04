@@ -1,5 +1,8 @@
 <template>
-  <div class="relative" :style="{ width: `${sidebarWidth}px` }">
+  <div
+    class="relative"
+    :style="{ width: props.unit === 'percent' ? `${sidebarWidth}%` : `${sidebarWidth}px` }"
+  >
     <slot v-bind="{ sidebarResizing, sidebarWidth }" />
     <div
       class="absolute z-10 h-full w-1 cursor-col-resize bg-surface-gray-4 opacity-0 transition-opacity hover:opacity-100"
@@ -21,6 +24,9 @@ const props = defineProps({
   maxWidth: { type: Number, default: 30 * 16 },
   side: { type: String, default: 'left' },
   parent: { type: Object, default: null },
+  // 'px' (default, absolute) or 'percent' — when 'percent', defaultWidth/minWidth/maxWidth
+  // are read as 0-100 values and the panel tracks the parent's width proportionally.
+  unit: { type: String, default: 'px' },
 })
 
 const sidebarResizing = ref(false)
@@ -48,14 +54,30 @@ function resize(e) {
     el.classList.remove('select-text')
     el.classList.add('select-text1')
   })
-  sidebarWidth.value =
-    props.side == 'left' ? e.clientX : window.innerWidth - e.clientX
 
-  let gap = props.parent ? distance() : 0
-  sidebarWidth.value = sidebarWidth.value - gap
+  if (props.unit === 'percent') {
+    const rect = props.parent
+      ? props.parent.getBoundingClientRect()
+      : { left: 0, width: window.innerWidth }
+    const pxWidth =
+      props.side == 'left'
+        ? e.clientX - rect.left
+        : rect.left + rect.width - e.clientX
+    sidebarWidth.value = (pxWidth / rect.width) * 100
+  } else {
+    sidebarWidth.value =
+      props.side == 'left' ? e.clientX : window.innerWidth - e.clientX
+
+    let gap = props.parent ? distance() : 0
+    sidebarWidth.value = sidebarWidth.value - gap
+  }
 
   // snap to props.defaultWidth
-  let range = [props.defaultWidth - 10, props.defaultWidth + 10]
+  const snapMargin = props.unit === 'percent' ? 1 : 10
+  let range = [
+    props.defaultWidth - snapMargin,
+    props.defaultWidth + snapMargin,
+  ]
   if (sidebarWidth.value > range[0] && sidebarWidth.value < range[1]) {
     sidebarWidth.value = props.defaultWidth
   }
