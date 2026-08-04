@@ -115,8 +115,11 @@
         </template>
       </SidebarLink>
     </div>
-    <div v-if="!isOnboardingStepsCompleted" class="fixed bottom-4 right-4 z-50">
-      <GettingStartedBanner :isSidebarCollapsed="false" />
+    <div v-if="!isOnboardingStepsCompleted" class="fixed bottom-16 right-4 z-50">
+      <GettingStartedBanner
+        :isSidebarCollapsed="true"
+        class="!size-11 !rounded-full shadow-lg"
+      />
     </div>
     <Notifications />
     <Settings />
