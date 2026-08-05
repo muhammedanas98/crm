@@ -14,7 +14,7 @@
     </LayoutHeader>
     <div class="flex flex-1 overflow-hidden  ">
       <div
-        class="flex flex-col w-60 shrink-0 bg-surface-gray-1 m-2 rounded-lg shadow-md overflow-y-auto"
+        class="flex flex-col w-60 shrink-0 bg-surface-gray-1 m-2 px-2 rounded-lg shadow-md overflow-y-auto [scrollbar-width:thin] [scrollbar-color:rgb(0_0_0_/_0.15)_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/10 hover:[&::-webkit-scrollbar-thumb]:bg-black/20"
       >
         <template v-for="(tab, i) in tabs" :key="tab.label">
           <div v-if="!tab.hideLabel && i != 0" class="mx-1 mb-0.5 mt-[5px]" />
