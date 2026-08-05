@@ -98,6 +98,7 @@
                 <Button
                   v-if="canDelete"
                   :label="__('Delete')"
+                  variant="solid"
                   theme="red"
                   size="sm"
                   iconLeft="trash-2"

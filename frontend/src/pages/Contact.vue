@@ -12,6 +12,14 @@
         v-if="contact._actions?.length"
         :actions="contact._actions"
       />
+      <Button
+        v-if="canDelete"
+        :label="__('Delete')"
+        variant="solid"
+        theme="red"
+        iconLeft="trash-2"
+        @click="deleteContact()"
+      />
     </template>
   </LayoutHeader>
   <div v-if="contact.doc" ref="parentRef" class="flex h-full">
@@ -97,14 +105,6 @@
                   size="sm"
                   :iconLeft="PhoneIcon"
                   @click="callEnabled && makeCall(contact.doc.mobile_no)"
-                />
-                <Button
-                  v-if="canDelete"
-                  :label="__('Delete')"
-                  theme="red"
-                  size="sm"
-                  iconLeft="trash-2"
-                  @click="deleteContact()"
                 />
               </div>
             </div>
@@ -504,7 +504,6 @@ function getDealRowObject(deal) {
       label: deal.status,
       color: getDealStatus(deal.status)?.color,
     },
-    email: deal.email,
     mobile_no: deal.mobile_no,
     deal_owner: {
       label: deal.deal_owner && getUser(deal.deal_owner).full_name,
@@ -518,38 +517,33 @@ const dealColumns = [
   {
     label: __('Organization'),
     key: 'organization',
-    width: '11rem',
+    width: '10rem',
   },
   {
     label: __('Amount'),
     key: 'deal_value',
     align: 'right',
-    width: '9rem',
+    width: '8rem',
   },
   {
     label: __('Status'),
     key: 'status',
-    width: '10rem',
-  },
-  {
-    label: __('Email'),
-    key: 'email',
-    width: '12rem',
+    width: '9rem',
   },
   {
     label: __('Mobile No.'),
     key: 'mobile_no',
-    width: '11rem',
+    width: '9rem',
   },
   {
     label: __('Deal Owner'),
     key: 'deal_owner',
-    width: '10rem',
+    width: '9rem',
   },
   {
     label: __('Last Modified'),
     key: 'modified',
-    width: '8rem',
+    width: '7rem',
   },
 ]
 
