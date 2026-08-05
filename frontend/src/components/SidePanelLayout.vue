@@ -5,7 +5,7 @@
     <template v-for="(section, i) in _sections" :key="section.name">
       <div
         v-if="section.visible"
-        class="section mx-2 mb-2 flex flex-col rounded-lg bg-surface-gray-1"
+        class="section mx-2 mb-2 flex flex-col rounded-lg border border-outline-gray-2 shadow-sm"
         :class="{ 'mt-2': i === firstVisibleIndex() }"
       >
         <div class="p-1 sm:p-3">
