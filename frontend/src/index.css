@@ -43,7 +43,7 @@
   --ink-amber-8: #945b00; /* text */
 
   /* active nav item (no dedicated frappe-ui token covers this bg/text pair) */
-  --active-nav-bg: #e1eeff;
+  --active-nav-bg: #f5f5f6; /*  #e1eeff; */
   --active-nav-text: #0d68c5;
 
   /* modal scrim */
