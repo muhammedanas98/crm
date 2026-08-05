@@ -110,10 +110,18 @@ function handleClick() {
   }
 }
 
+const detailToListRoute = {
+  Lead: 'Leads',
+  Deal: 'Deals',
+  Contact: 'Contacts',
+  Organization: 'Organizations',
+}
+
 let isActive = computed(() => {
   if (route.query.view) {
     return route.query.view == props.to?.query?.view
   }
-  return route.name === props.to
+  let routeName = detailToListRoute[route.name] || route.name
+  return routeName === props.to
 })
 </script>
