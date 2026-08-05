@@ -141,9 +141,10 @@
 </template>
 
 <script setup>
-import LucideLayoutDashboard from '~icons/lucide/layout-dashboard'
-import MoreIcon from '~icons/lucide/layout-list'
+import DashboardIcon from '~icons/lucide/layout-dashboard'
+import MoreIcon from '~icons/lucide/rectangle-ellipsis'
 import AppsIcon from '~icons/lucide/layout-grid'
+import HandshakeIcon from '~icons/lucide/handshake'
 import CRMLogo from '@/components/Icons/CRMLogo.vue'
 import InviteIcon from '@/components/Icons/InviteIcon.vue'
 import ConvertIcon from '@/components/Icons/ConvertIcon.vue'
@@ -155,7 +156,6 @@ import PinIcon from '@/components/Icons/PinIcon.vue'
 import UserDropdown from '@/components/UserDropdown.vue'
 import SquareAsterisk from '@/components/Icons/SquareAsterisk.vue'
 import LeadsIcon from '@/components/Icons/LeadsIcon.vue'
-import DealsIcon from '@/components/Icons/DealsIcon.vue'
 import ContactsIcon from '@/components/Icons/ContactsIcon.vue'
 import OrganizationsIcon from '@/components/Icons/OrganizationsIcon.vue'
 import NoteIcon from '@/components/Icons/NoteIcon.vue'
@@ -225,7 +225,7 @@ function scrollNavDown() {
 const links = [
   {
     label: 'Dashboard',
-    icon: LucideLayoutDashboard,
+    icon: DashboardIcon,
     to: 'Dashboard',
   },
   {
@@ -235,7 +235,7 @@ const links = [
   },
   {
     label: 'Deals',
-    icon: DealsIcon,
+    icon: HandshakeIcon,
     to: 'Deals',
   },
   {
@@ -303,7 +303,7 @@ function getIcon(routeName, icon) {
     case 'Leads':
       return LeadsIcon
     case 'Deals':
-      return DealsIcon
+      return HandshakeIcon
     case 'Contacts':
       return ContactsIcon
     case 'Organizations':

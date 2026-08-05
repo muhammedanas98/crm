@@ -6,5 +6,5 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-
+  const LucideLayoutDashboard: typeof import('~icons/lucide/layout-dashboard')['default']
 }
