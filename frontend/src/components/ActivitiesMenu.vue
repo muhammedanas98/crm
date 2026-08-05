@@ -13,8 +13,8 @@
       class="absolute z-20 h-screen bg-surface-base transform-gpu will-change-[opacity]"
       :style="{
         'box-shadow': '8px 0px 8px rgba(0, 0, 0, 0.1)',
-        'max-width': '260px',
-        'min-width': '260px',
+        'max-width': '200px',
+        'min-width': '200px',
         left: 'calc(100% + 1px)',
       }"
     >
