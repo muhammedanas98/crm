@@ -24,6 +24,8 @@
           v-for="app in apps.data"
           :key="app.name"
           :href="app.route || '/' + app.name"
+          target="_blank"
+          rel="noopener noreferrer"
           class="flex flex-col items-center gap-1.5 rounded-lg px-1 py-2.5 text-center hover:bg-surface-gray-2 dark:hover:bg-white/10"
         >
           <img
