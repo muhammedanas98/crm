@@ -23,18 +23,16 @@
           {{ __('More Options') }}
         </div>
         <nav class="flex flex-col px-2 gap-0.5">
-          <component
-            :is="item.to ? 'RouterLink' : 'button'"
+          <button
             v-for="item in items"
             :key="item.label"
-            :to="item.to ? { name: item.to } : undefined"
             type="button"
             class="flex w-full items-center gap-2.5 rounded border-0 bg-transparent px-2.5 py-2 text-left text-base text-ink-gray-8 hover:bg-surface-gray-2 focus:outline-none"
             @click="onItemClick(item)"
           >
             <component :is="item.icon" class="h-4.5 w-4.5" />
             {{ __(item.label) }}
-          </component>
+          </button>
         </nav>
       </div>
     </div>
@@ -49,7 +47,9 @@ import CalendarIcon from '@/components/Icons/CalendarIcon.vue'
 import { notificationsStore } from '@/stores/notifications'
 import { onClickOutside } from '@vueuse/core'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const { toggle: toggleNotificationPanel } = notificationsStore()
 
 const visible = defineModel()
@@ -64,7 +64,11 @@ const items = [
 
 function onItemClick(item) {
   visible.value = false
-  item.onClick?.()
+  if (item.to) {
+    router.push({ name: item.to })
+  } else {
+    item.onClick?.()
+  }
 }
 
 const target = ref(null)
