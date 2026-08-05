@@ -10,7 +10,7 @@
     <div
       v-if="visible"
       ref="target"
-      class="fixed bottom-3 left-[92px] z-20 w-[272px] rounded-xl bg-white p-3 origin-bottom-left dark:bg-surface-gray-9"
+      class="fixed bottom-3 left-[104px] z-20 w-[272px] rounded-xl bg-white p-3 origin-bottom-left dark:bg-surface-gray-9"
       :style="{ 'box-shadow': '0px 4px 16px rgba(0, 0, 0, 0.25)' }"
     >
       <div
