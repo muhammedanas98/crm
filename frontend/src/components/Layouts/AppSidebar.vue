@@ -11,28 +11,6 @@
         class="h-full overflow-y-auto overflow-x-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         @scroll="updateScrollState"
       >
-      <div class="flex flex-col px-2">
-        <SidebarLink
-          id="notifications-btn"
-          :label="__('Notifications')"
-          :icon="NotificationsIcon"
-          rail
-          dark
-          class="my-[1.5px]"
-          @click="() => toggleNotificationPanel()"
-        >
-          <template #badge>
-            <Badge
-              v-if="unreadNotificationsCount"
-              :label="unreadNotificationsCount"
-              theme="blue"
-              variant="solid"
-              size="sm"
-              class="absolute -right-2 -top-1.5 !text-[10px] !font-semibold"
-            />
-          </template>
-        </SidebarLink>
-      </div>
       <div v-for="view in allViews" :key="view.label">
         <div class="mx-2 my-1.5" />
         <CollapsibleSection
@@ -114,6 +92,14 @@
           <HelpIcon class="h-5 w-5" />
         </template>
       </SidebarLink>
+      <SidebarLink
+        id="more-btn"
+        :label="__('More')"
+        :icon="MoreIcon"
+        rail
+        dark
+        @click="() => (showMoreMenu = !showMoreMenu)"
+      />
     </div>
     <div v-if="!isOnboardingStepsCompleted" class="fixed bottom-16 right-4 z-50">
       <GettingStartedBanner
@@ -122,6 +108,7 @@
       />
     </div>
     <Notifications />
+    <MoreMenu v-model="showMoreMenu" />
     <Settings />
     <HelpModal
       v-if="showHelpModal"
@@ -144,6 +131,7 @@
 
 <script setup>
 import LucideLayoutDashboard from '~icons/lucide/layout-dashboard'
+import MoreIcon from '~icons/lucide/ellipsis'
 import CRMLogo from '@/components/Icons/CRMLogo.vue'
 import InviteIcon from '@/components/Icons/InviteIcon.vue'
 import ConvertIcon from '@/components/Icons/ConvertIcon.vue'
@@ -160,19 +148,14 @@ import ContactsIcon from '@/components/Icons/ContactsIcon.vue'
 import OrganizationsIcon from '@/components/Icons/OrganizationsIcon.vue'
 import NoteIcon from '@/components/Icons/NoteIcon.vue'
 import TaskIcon from '@/components/Icons/TaskIcon.vue'
-import CalendarIcon from '@/components/Icons/CalendarIcon.vue'
 import PhoneIcon from '@/components/Icons/PhoneIcon.vue'
-import NotificationsIcon from '@/components/Icons/NotificationsIcon.vue'
 import HelpIcon from '@/components/Icons/HelpIcon.vue'
 import SidebarLink from '@/components/SidebarLink.vue'
 import Notifications from '@/components/Notifications.vue'
+import MoreMenu from '@/components/MoreMenu.vue'
 import Settings from '@/components/Settings/Settings.vue'
 import SalesHierarchyBanner from '@/components/SalesHierarchyBanner.vue'
 import { viewsStore } from '@/stores/views'
-import {
-  unreadNotificationsCount,
-  notificationsStore,
-} from '@/stores/notifications'
 import { usersStore } from '@/stores/users'
 import { sessionStore } from '@/stores/session'
 import { showSettings, activeSettingsPage } from '@/composables/settings'
@@ -202,7 +185,6 @@ import {
 } from 'vue'
 
 const { getPinnedViews, getPublicViews } = viewsStore()
-const { toggle: toggleNotificationPanel } = notificationsStore()
 const { capture } = useTelemetry()
 const { send } = useBroadcast()
 
@@ -213,6 +195,7 @@ const showSalesHierarchyBanner = ref(!!window.show_sales_hierarchy_banner)
 // scroll-down affordance for the nav list, shown only while more items sit below the fold
 const navScroll = ref(null)
 const canScrollDown = ref(false)
+const showMoreMenu = ref(false)
 let navResizeObserver = null
 
 function updateScrollState() {
@@ -250,26 +233,6 @@ const links = [
     label: 'Organizations',
     icon: OrganizationsIcon,
     to: 'Organizations',
-  },
-  {
-    label: 'Notes',
-    icon: NoteIcon,
-    to: 'Notes',
-  },
-  {
-    label: 'Tasks',
-    icon: TaskIcon,
-    to: 'Tasks',
-  },
-  {
-    label: 'Calendar',
-    icon: CalendarIcon,
-    to: 'Calendar',
-  },
-  {
-    label: 'Call Logs',
-    icon: PhoneIcon,
-    to: 'Call Logs',
   },
 ]
 
