@@ -14,6 +14,7 @@
     </LayoutHeader>
     <div class="flex flex-1 overflow-hidden mx-2">
       <div
+        ref="tabListEl"
         class="flex flex-col w-60 shrink-0 bg-surface-gray-1 m-2 px-2 rounded-lg shadow-md overflow-y-auto [scrollbar-width:none] hover:[scrollbar-width:thin] [scrollbar-color:transparent_transparent] hover:[scrollbar-color:rgb(0_0_0_/_0.15)_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-transparent hover:[&::-webkit-scrollbar-thumb]:bg-black/15"
       >
         <template v-for="(tab, i) in tabs" :key="tab.label">
@@ -90,7 +91,7 @@ import {
 } from '@/composables/settings'
 import { isWhatsappInstalled } from '@/composables/whatsapp'
 import { Avatar } from 'frappe-ui'
-import { markRaw, computed, h, onMounted, watch } from 'vue'
+import { markRaw, computed, h, onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import router from '@/router'
 import AssignmentRulePage from './AssignmentRules/AssignmentRulePage.vue'
 import ShieldCheck from '~icons/lucide/shield-check'
@@ -282,6 +283,20 @@ const activeTab = computed(
 function goToTab(label) {
   router.replace({ name: 'Settings', params: { tab: settingsTabSlug(label) } })
 }
+
+// App.vue keys <router-view> on the full path, so switching tabs (a route
+// change) remounts this whole component and resets the tab list's scroll —
+// persist it in module scope across that remount.
+let savedTabListScroll = 0
+const tabListEl = ref(null)
+
+onMounted(() => {
+  if (tabListEl.value) tabListEl.value.scrollTop = savedTabListScroll
+})
+
+onBeforeUnmount(() => {
+  if (tabListEl.value) savedTabListScroll = tabListEl.value.scrollTop
+})
 
 function close() {
   activeSettingsPage.value = ''
