@@ -396,7 +396,7 @@
   </FadedScrollableDiv>
   <div>
     <CommunicationArea
-      v-if="['Emails', 'Comments', 'Activity'].includes(title)"
+      v-if="title != 'WhatsApp'"
       ref="emailBox"
       v-model="doc"
       v-model:reload="reload_email"
