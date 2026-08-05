@@ -43,6 +43,16 @@
               dark
               class="my-[1.5px]"
             />
+            <SidebarLink
+              v-if="view.hideLabel"
+              id="more-btn"
+              :label="__('More')"
+              :icon="MoreIcon"
+              rail
+              dark
+              class="my-[1.5px]"
+              @click="() => (showMoreMenu = !showMoreMenu)"
+            />
           </nav>
         </CollapsibleSection>
       </div>
@@ -93,12 +103,12 @@
         </template>
       </SidebarLink>
       <SidebarLink
-        id="more-btn"
-        :label="__('More')"
-        :icon="MoreIcon"
+        id="apps-btn"
+        :label="__('Apps')"
+        :icon="AppsIcon"
         rail
         dark
-        @click="() => (showMoreMenu = !showMoreMenu)"
+        @click="() => (showAppsMenu = !showAppsMenu)"
       />
     </div>
     <div v-if="!isOnboardingStepsCompleted" class="fixed bottom-16 right-4 z-50">
@@ -109,6 +119,7 @@
     </div>
     <Notifications />
     <MoreMenu v-model="showMoreMenu" />
+    <AppsMenu v-model="showAppsMenu" />
     <Settings />
     <HelpModal
       v-if="showHelpModal"
@@ -132,6 +143,7 @@
 <script setup>
 import LucideLayoutDashboard from '~icons/lucide/layout-dashboard'
 import MoreIcon from '~icons/lucide/ellipsis'
+import AppsIcon from '~icons/lucide/layout-grid'
 import CRMLogo from '@/components/Icons/CRMLogo.vue'
 import InviteIcon from '@/components/Icons/InviteIcon.vue'
 import ConvertIcon from '@/components/Icons/ConvertIcon.vue'
@@ -153,6 +165,7 @@ import HelpIcon from '@/components/Icons/HelpIcon.vue'
 import SidebarLink from '@/components/SidebarLink.vue'
 import Notifications from '@/components/Notifications.vue'
 import MoreMenu from '@/components/MoreMenu.vue'
+import AppsMenu from '@/components/AppsMenu.vue'
 import Settings from '@/components/Settings/Settings.vue'
 import SalesHierarchyBanner from '@/components/SalesHierarchyBanner.vue'
 import { viewsStore } from '@/stores/views'
@@ -196,6 +209,7 @@ const showSalesHierarchyBanner = ref(!!window.show_sales_hierarchy_banner)
 const navScroll = ref(null)
 const canScrollDown = ref(false)
 const showMoreMenu = ref(false)
+const showAppsMenu = ref(false)
 let navResizeObserver = null
 
 function updateScrollState() {
