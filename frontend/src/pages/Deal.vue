@@ -8,14 +8,6 @@
       </Breadcrumbs>
     </template>
     <template v-if="!errorTitle" #right-header>
-      <CustomActions
-        v-if="document._actions?.length"
-        :actions="document._actions"
-      />
-      <CustomActions
-        v-if="document.actions?.length"
-        :actions="document.actions"
-      />
       <EnrichFromWebsite
         doctype="CRM Deal"
         :docname="dealId"
@@ -40,6 +32,14 @@
           </Button>
         </template>
       </Dropdown>
+      <CustomActions
+        v-if="document._actions?.length"
+        :actions="document._actions"
+      />
+      <CustomActions
+        v-if="document.actions?.length"
+        :actions="document.actions"
+      />
     </template>
   </LayoutHeader>
   <div
