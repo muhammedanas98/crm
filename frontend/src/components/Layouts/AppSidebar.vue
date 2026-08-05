@@ -113,6 +113,14 @@
         </template>
       </SidebarLink>
       <SidebarLink
+        id="settings-btn"
+        :label="__('Settings')"
+        :icon="SettingsIcon"
+        rail
+        dark
+        @click="() => (showSettings = true)"
+      />
+      <SidebarLink
         id="apps-btn"
         :label="__('Apps')"
         :icon="AppsIcon"
@@ -172,6 +180,7 @@ import NoteIcon from '@/components/Icons/NoteIcon.vue'
 import TaskIcon from '@/components/Icons/TaskIcon.vue'
 import PhoneIcon from '@/components/Icons/PhoneIcon.vue'
 import HelpIcon from '@/components/Icons/HelpIcon.vue'
+import SettingsIcon from '@/components/Icons/SettingsIcon.vue'
 import SidebarLink from '@/components/SidebarLink.vue'
 import Notifications from '@/components/Notifications.vue'
 import NotificationsIcon from '@/components/Icons/NotificationsIcon.vue'
