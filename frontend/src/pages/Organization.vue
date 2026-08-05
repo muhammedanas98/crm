@@ -18,6 +18,14 @@
         :website="organization.doc?.website"
         @done="onEnriched"
       />
+      <Button
+        v-if="canDelete"
+        :label="__('Delete')"
+        variant="solid"
+        theme="red"
+        iconLeft="trash-2"
+        @click="deleteOrganization()"
+      />
     </template>
   </LayoutHeader>
   <div v-if="organization.doc" ref="parentRef" class="flex h-full">
@@ -37,8 +45,8 @@
         >
           <template #default="{ openFileSelector, error }">
             <div class="flex flex-col items-start justify-start gap-4 p-5">
-              <div class="flex gap-4 items-center">
-                <div class="group relative h-15.5 w-15.5">
+              <div class="flex w-full min-w-0 items-center gap-4">
+                <div class="group relative h-15.5 w-15.5 shrink-0">
                   <Avatar
                     size="3xl"
                     class="h-15.5 w-15.5"
@@ -80,35 +88,20 @@
                     </div>
                   </component>
                 </div>
-                <div class="flex flex-col gap-2 truncate">
+                <div class="flex min-w-0 flex-col gap-2">
                   <div class="truncate text-3xl-medium text-ink-gray-9">
                     <span>{{ organization.doc.name }}</span>
                   </div>
                   <div
                     v-if="organization.doc.website"
-                    class="flex items-center gap-1.5 text-base text-ink-gray-8"
+                    class="flex min-w-0 cursor-pointer items-center gap-1.5 text-base text-ink-gray-8 hover:underline"
+                    @click="openWebsite"
                   >
-                    <WebsiteIcon class="size-4" />
-                    <span>{{ website(organization.doc.website) }}</span>
+                    <WebsiteIcon class="size-4 shrink-0" />
+                    <span class="truncate">{{ website(organization.doc.website) }}</span>
                   </div>
                   <ErrorMessage :message="__(error)" />
                 </div>
-              </div>
-              <div class="flex gap-1.5">
-                <Button
-                  v-if="canDelete"
-                  :label="__('Delete')"
-                  variant="solid"
-                  theme="red"
-                  size="sm"
-                  iconLeft="trash-2"
-                  @click="deleteOrganization()"
-                />
-                <Button
-                  :tooltip="__('Open Website')"
-                  icon="lucide-link"
-                  @click="openWebsite"
-                />
               </div>
             </div>
           </template>
@@ -471,7 +464,6 @@ function getDealRowObject(deal) {
       label: deal.status,
       color: getDealStatus(deal.status)?.color,
     },
-    email: deal.email,
     mobile_no: deal.mobile_no,
     deal_owner: {
       label: deal.deal_owner && getUser(deal.deal_owner).full_name,
@@ -489,7 +481,6 @@ function getContactRowObject(contact) {
       image_label: contact.full_name,
       image: contact.image,
     },
-    email: contact.email_id,
     mobile_no: contact.mobile_no,
     company_name: {
       label: contact.company_name,
@@ -503,38 +494,33 @@ const dealColumns = [
   {
     label: __('Organization'),
     key: 'organization',
-    width: '11rem',
+    width: '10rem',
   },
   {
     label: __('Amount'),
     key: 'annual_revenue',
     align: 'right',
-    width: '9rem',
+    width: '8rem',
   },
   {
     label: __('Status'),
     key: 'status',
-    width: '10rem',
-  },
-  {
-    label: __('Email'),
-    key: 'email',
-    width: '12rem',
+    width: '9rem',
   },
   {
     label: __('Mobile No.'),
     key: 'mobile_no',
-    width: '11rem',
+    width: '9rem',
   },
   {
     label: __('Deal Owner'),
     key: 'deal_owner',
-    width: '10rem',
+    width: '9rem',
   },
   {
     label: __('Last Modified'),
     key: 'modified',
-    width: '8rem',
+    width: '7rem',
   },
 ]
 
@@ -542,27 +528,22 @@ const contactColumns = [
   {
     label: __('Name'),
     key: 'full_name',
-    width: '17rem',
-  },
-  {
-    label: __('Email'),
-    key: 'email',
-    width: '12rem',
+    width: '15rem',
   },
   {
     label: __('Phone'),
     key: 'mobile_no',
-    width: '12rem',
+    width: '10rem',
   },
   {
     label: __('Organization'),
     key: 'company_name',
-    width: '12rem',
+    width: '10rem',
   },
   {
     label: __('Last Modified'),
     key: 'modified',
-    width: '8rem',
+    width: '7rem',
   },
 ]
 
