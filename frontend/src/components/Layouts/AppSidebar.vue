@@ -142,7 +142,7 @@
 
 <script setup>
 import LucideLayoutDashboard from '~icons/lucide/layout-dashboard'
-import MoreIcon from '~icons/lucide/ellipsis'
+import MoreIcon from '~icons/lucide/layout-list'
 import AppsIcon from '~icons/lucide/layout-grid'
 import CRMLogo from '@/components/Icons/CRMLogo.vue'
 import InviteIcon from '@/components/Icons/InviteIcon.vue'

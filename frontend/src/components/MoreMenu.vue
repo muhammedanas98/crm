@@ -28,7 +28,8 @@
             v-for="item in items"
             :key="item.label"
             :to="item.to ? { name: item.to } : undefined"
-            class="flex items-center gap-2.5 rounded px-2.5 py-2 text-base text-ink-gray-8 hover:bg-surface-gray-2"
+            type="button"
+            class="flex w-full items-center gap-2.5 rounded border-0 bg-transparent px-2.5 py-2 text-left text-base text-ink-gray-8 hover:bg-surface-gray-2 focus:outline-none"
             @click="onItemClick(item)"
           >
             <component :is="item.icon" class="h-4.5 w-4.5" />
