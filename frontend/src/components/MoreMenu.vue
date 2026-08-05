@@ -1,16 +1,16 @@
 <template>
   <Transition
-    enter-active-class="transition duration-200 ease-out"
-    enter-from-class="opacity-0 -translate-x-2"
-    enter-to-class="opacity-100 translate-x-0"
-    leave-active-class="transition duration-150 ease-in"
-    leave-from-class="opacity-100 translate-x-0"
-    leave-to-class="opacity-0 -translate-x-2"
+    enter-active-class="transition-opacity duration-150 ease-out"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    leave-active-class="transition-opacity duration-100 ease-in"
+    leave-from-class="opacity-100"
+    leave-to-class="opacity-0"
   >
     <div
       v-if="visible"
       ref="target"
-      class="absolute z-20 h-screen bg-surface-base"
+      class="absolute z-20 h-screen bg-surface-base transform-gpu will-change-[opacity]"
       :style="{
         'box-shadow': '8px 0px 8px rgba(0, 0, 0, 0.1)',
         'max-width': '260px',
