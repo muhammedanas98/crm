@@ -1,48 +1,51 @@
 <template>
-  <Dialog
-    v-model:open="showSettings"
-    :size="'5xl'"
-    :disableOutsideClickToClose="disableSettingModalOutsideClick"
-    @close="activeSettingsPage = ''"
-  >
-    <template #body>
-      <div class="flex h-[calc(100vh_-_8rem)] bg-surface-gray-1">
-        <div
-          class="flex flex-col m-1 rounded-l-lg w-56 shrink-0 bg-surface-gray-1 overflow-y-auto"
-        >
-          <template v-for="(tab, i) in tabs" :key="tab.label">
-            <div v-if="!tab.hideLabel && i != 0" class="mx-1 mb-0.5 mt-[5px]" />
-            <div
-              v-if="!tab.hideLabel"
-              class="h-7.5 px-2 py-[7px] my-[3px] flex cursor-pointer gap-1.5 text-sm-semibold uppercase tracking-wide text-ink-gray-6 transition-all duration-300 ease-in-out sticky top-0 z-10 bg-surface-gray-1"
-            >
-              <span>{{ __(tab.label) }}</span>
-            </div>
-            <nav class="space-y-[3px] px-1">
-              <SidebarLink
-                v-for="item in tab.items"
-                :key="item.label"
-                :icon="item.icon"
-                :label="__(item.label)"
-                class="w-full"
-                :class="
-                  activeTab?.label == item.label
-                    ? 'bg-[var(--active-nav-bg)] text-[var(--active-nav-text)] shadow-sm hover:bg-[var(--active-nav-bg)]'
-                    : 'hover:bg-surface-gray-2'
-                "
-                @click="activeSettingsPage = item.label"
-              />
-            </nav>
-          </template>
-        </div>
-        <div
-          class="flex flex-col flex-1 overflow-y-auto bg-surface-elevation-2"
-        >
-          <component :is="activeTab.component" v-if="activeTab" />
-        </div>
+  <div class="flex h-full flex-col overflow-hidden">
+    <LayoutHeader>
+      <template #left-header>
+        <Button
+          variant="ghost"
+          icon-left="lucide-chevron-left"
+          :label="__('Settings')"
+          size="md"
+          class="-ml-2 text-2xl-semibold hover:bg-transparent hover:opacity-70"
+          @click="close"
+        />
+      </template>
+    </LayoutHeader>
+    <div class="flex flex-1 overflow-hidden bg-surface-gray-1">
+      <div
+        class="flex flex-col w-56 shrink-0 bg-surface-gray-1 overflow-y-auto"
+      >
+        <template v-for="(tab, i) in tabs" :key="tab.label">
+          <div v-if="!tab.hideLabel && i != 0" class="mx-1 mb-0.5 mt-[5px]" />
+          <div
+            v-if="!tab.hideLabel"
+            class="h-7.5 px-2 py-[7px] my-[3px] flex cursor-pointer gap-1.5 text-sm-semibold uppercase tracking-wide text-ink-gray-6 transition-all duration-300 ease-in-out sticky top-0 z-10 bg-surface-gray-1"
+          >
+            <span>{{ __(tab.label) }}</span>
+          </div>
+          <nav class="space-y-[3px] px-1">
+            <SidebarLink
+              v-for="item in tab.items"
+              :key="item.label"
+              :icon="item.icon"
+              :label="__(item.label)"
+              class="w-full"
+              :class="
+                activeTab?.label == item.label
+                  ? 'bg-[var(--active-nav-bg)] text-[var(--active-nav-text)] shadow-sm hover:bg-[var(--active-nav-bg)]'
+                  : 'hover:bg-surface-gray-2'
+              "
+              @click="goToTab(item.label)"
+            />
+          </nav>
+        </template>
       </div>
-    </template>
-  </Dialog>
+      <div class="flex flex-col flex-1 overflow-y-auto bg-surface-elevation-2">
+        <component :is="activeTab.component" v-if="activeTab" />
+      </div>
+    </div>
+  </div>
 </template>
 <script setup>
 import LucideLayoutDashboard from '~icons/lucide/layout-dashboard'
@@ -78,18 +81,24 @@ import EmailTemplatePage from '@/components/Settings/EmailTemplate/EmailTemplate
 import TelephonyPage from '@/components/Settings/Telephony/TelephonyPage.vue'
 import EmailConfig from '@/components/Settings/EmailConfig.vue'
 import SidebarLink from '@/components/SidebarLink.vue'
+import LayoutHeader from '@/components/LayoutHeader.vue'
 import { usersStore } from '@/stores/users'
 import {
   showSettings,
   activeSettingsPage,
-  disableSettingModalOutsideClick,
+  settingsTabSlug,
 } from '@/composables/settings'
 import { isWhatsappInstalled } from '@/composables/whatsapp'
-import { Dialog, Avatar } from 'frappe-ui'
-import { ref, markRaw, computed, watch, h } from 'vue'
+import { Avatar } from 'frappe-ui'
+import { markRaw, computed, h, onMounted, watch } from 'vue'
+import router from '@/router'
 import AssignmentRulePage from './AssignmentRules/AssignmentRulePage.vue'
 import ShieldCheck from '~icons/lucide/shield-check'
 import SlaConfig from './Sla/SlaConfig.vue'
+
+const props = defineProps({
+  tab: { type: String, default: '' },
+})
 
 const { isManager, getUser } = usersStore()
 
@@ -262,17 +271,40 @@ const tabs = computed(() => {
   })
 })
 
-const activeTab = ref(tabs.value[0].items[0])
+const flatItems = computed(() => tabs.value.map((tab) => tab.items).flat())
 
-function setActiveTab(tabName) {
-  activeTab.value =
-    (tabName &&
-      tabs.value
-        .map((tab) => tab.items)
-        .flat()
-        .find((tab) => tab.label === tabName)) ||
-    tabs.value[0].items[0]
+const activeTab = computed(
+  () =>
+    flatItems.value.find((item) => settingsTabSlug(item.label) === props.tab) ||
+    flatItems.value[0],
+)
+
+function goToTab(label) {
+  router.replace({ name: 'Settings', params: { tab: settingsTabSlug(label) } })
 }
 
-watch(activeSettingsPage, (activePage) => setActiveTab(activePage))
+function close() {
+  activeSettingsPage.value = ''
+  const prev = router.previousRoute
+  if (prev?.name && prev.name !== 'Settings') {
+    router.push({ name: prev.name, params: prev.params, query: prev.query })
+  } else {
+    router.push({ name: 'Home' })
+  }
+}
+
+// consume the open-trigger refs once the URL has taken over as the source
+// of truth, so a later trigger from elsewhere in the app starts clean
+onMounted(() => {
+  showSettings.value = false
+  activeSettingsPage.value = ''
+})
+
+// some call sites switch tabs while already on the settings page by just
+// setting `activeSettingsPage.value = 'Some Tab'` (no open-trigger involved)
+watch(activeSettingsPage, (label) => {
+  if (!label) return
+  goToTab(label)
+  activeSettingsPage.value = ''
+})
 </script>

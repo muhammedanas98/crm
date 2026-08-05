@@ -118,7 +118,7 @@
         :icon="SettingsIcon"
         rail
         dark
-        @click="() => (showSettings = true)"
+        @click="() => router.push({ name: 'Settings' })"
       />
       <SidebarLink
         id="apps-btn"
@@ -138,7 +138,6 @@
     <Notifications />
     <ActivitiesMenu v-model="showActivitiesMenu" />
     <AppsMenu v-model="showAppsMenu" />
-    <Settings />
     <HelpModal
       v-if="showHelpModal"
       v-model="showHelpModal"
@@ -186,7 +185,6 @@ import Notifications from '@/components/Notifications.vue'
 import NotificationsIcon from '@/components/Icons/NotificationsIcon.vue'
 import ActivitiesMenu from '@/components/ActivitiesMenu.vue'
 import AppsMenu from '@/components/AppsMenu.vue'
-import Settings from '@/components/Settings/Settings.vue'
 import SalesHierarchyBanner from '@/components/SalesHierarchyBanner.vue'
 import { viewsStore } from '@/stores/views'
 import { usersStore } from '@/stores/users'

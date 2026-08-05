@@ -125,6 +125,12 @@ const routes = [
     props: true,
   },
   {
+    path: '/settings/:tab?',
+    name: 'Settings',
+    component: () => import('@/components/Settings/Settings.vue'),
+    props: true,
+  },
+  {
     path: '/welcome',
     name: 'Welcome',
     component: () => import('@/pages/Welcome.vue'),
