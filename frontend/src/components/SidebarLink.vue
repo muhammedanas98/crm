@@ -16,7 +16,7 @@
   >
     <span class="relative flex items-center justify-center">
       <slot name="icon">
-        <Icon :icon="icon" class="flex items-center size-5" />
+        <Icon :icon="icon" class="flex items-center size-6" />
       </slot>
       <slot name="badge" />
     </span>
