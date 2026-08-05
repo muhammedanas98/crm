@@ -53,6 +53,16 @@
               class="my-[1.5px]"
               @click="() => (showMoreMenu = !showMoreMenu)"
             />
+            <SidebarLink
+              v-if="view.hideLabel"
+              id="notifications-btn"
+              :label="__('Notifications')"
+              :icon="NotificationsIcon"
+              rail
+              dark
+              class="my-[1.5px]"
+              @click="toggleNotificationPanel"
+            />
           </nav>
         </CollapsibleSection>
       </div>
@@ -164,6 +174,7 @@ import PhoneIcon from '@/components/Icons/PhoneIcon.vue'
 import HelpIcon from '@/components/Icons/HelpIcon.vue'
 import SidebarLink from '@/components/SidebarLink.vue'
 import Notifications from '@/components/Notifications.vue'
+import NotificationsIcon from '@/components/Icons/NotificationsIcon.vue'
 import MoreMenu from '@/components/MoreMenu.vue'
 import AppsMenu from '@/components/AppsMenu.vue'
 import Settings from '@/components/Settings/Settings.vue'
@@ -171,6 +182,7 @@ import SalesHierarchyBanner from '@/components/SalesHierarchyBanner.vue'
 import { viewsStore } from '@/stores/views'
 import { usersStore } from '@/stores/users'
 import { sessionStore } from '@/stores/session'
+import { notificationsStore } from '@/stores/notifications'
 import { showSettings, activeSettingsPage } from '@/composables/settings'
 import { showChangePasswordModal } from '@/composables/modals'
 import { useBroadcast } from '@/composables/useBroadcast.js'
@@ -198,6 +210,7 @@ import {
 } from 'vue'
 
 const { getPinnedViews, getPublicViews } = viewsStore()
+const { toggle: toggleNotificationPanel } = notificationsStore()
 const { capture } = useTelemetry()
 const { send } = useBroadcast()
 

@@ -42,20 +42,16 @@
 import NoteIcon from '@/components/Icons/NoteIcon.vue'
 import TaskIcon from '@/components/Icons/TaskIcon.vue'
 import PhoneIcon from '@/components/Icons/PhoneIcon.vue'
-import NotificationsIcon from '@/components/Icons/NotificationsIcon.vue'
 import CalendarIcon from '@/components/Icons/CalendarIcon.vue'
-import { notificationsStore } from '@/stores/notifications'
 import { onClickOutside } from '@vueuse/core'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const { toggle: toggleNotificationPanel } = notificationsStore()
 
 const visible = defineModel()
 
 const items = [
-  { label: 'Notifications', icon: NotificationsIcon, onClick: toggleNotificationPanel },
   { label: 'Calendar', icon: CalendarIcon, to: 'Calendar' },
   { label: 'Notes', icon: NoteIcon, to: 'Notes' },
   { label: 'Tasks', icon: TaskIcon, to: 'Tasks' },
