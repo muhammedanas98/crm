@@ -12,9 +12,9 @@
         />
       </template>
     </LayoutHeader>
-    <div class="flex flex-1 overflow-hidden bg-surface-gray-1">
+    <div class="flex flex-1 overflow-hidden  ">
       <div
-        class="flex flex-col w-56 shrink-0 bg-surface-gray-1 overflow-y-auto"
+        class="flex flex-col w-60 shrink-0 bg-surface-gray-1 m-2 rounded-lg shadow-md overflow-y-auto"
       >
         <template v-for="(tab, i) in tabs" :key="tab.label">
           <div v-if="!tab.hideLabel && i != 0" class="mx-1 mb-0.5 mt-[5px]" />
