@@ -18,14 +18,6 @@
         :website="organization.doc?.website"
         @done="onEnriched"
       />
-      <Button
-        v-if="canDelete"
-        :label="__('Delete')"
-        variant="solid"
-        theme="red"
-        iconLeft="trash-2"
-        @click="deleteOrganization()"
-      />
     </template>
   </LayoutHeader>
   <div v-if="organization.doc" ref="parentRef" class="flex h-full">

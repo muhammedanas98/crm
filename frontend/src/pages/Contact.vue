@@ -12,14 +12,6 @@
         v-if="contact._actions?.length"
         :actions="contact._actions"
       />
-      <Button
-        v-if="canDelete"
-        :label="__('Delete')"
-        variant="solid"
-        theme="red"
-        iconLeft="trash-2"
-        @click="deleteContact()"
-      />
     </template>
   </LayoutHeader>
   <div v-if="contact.doc" ref="parentRef" class="flex h-full">
