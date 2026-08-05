@@ -4,6 +4,8 @@
       v-for="action in normalActions"
       :key="action.label"
       :label="action.label"
+      :variant="action.variant || 'subtle'"
+      :class="action.class"
       @click="action.onClick(close)"
     >
       <template v-if="action.icon" #prefix>

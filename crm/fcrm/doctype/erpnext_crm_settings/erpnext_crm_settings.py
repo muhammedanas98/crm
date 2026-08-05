@@ -650,29 +650,33 @@ def get_crm_form_script():
 		})
 	}
 	setActions() {
-		// Add Create Quotation Button
-		this.actions.push({
-			label: __("Create Quotation"),
-			onClick: () => {
-				call(
-					"crm.fcrm.doctype.erpnext_crm_settings.erpnext_crm_settings.get_quotation_url",
-					{
-						crm_deal: this.doc.name,
-						organization: this.doc.organization
-					}
-				).then((quotation_url) => {
-					if (quotation_url) {
-						window.open(quotation_url, '_blank');
-					} else {
-						toast.error("Error while creating quotation in ERPNext");
-					}
-				}).catch((e) => {
-					toast.error(e.messages[0] || "Error while creating quotation in ERPNext. Check error log in ERPNext for more details");
-				});
-			}
-		})
+		const addQuotationAction = () => {
+			// Add Create Quotation Button (kept last / rightmost in the actions bar)
+			this.actions.push({
+				label: __("Create Quotation"),
+				variant: "solid",
+				class: "!bg-[var(--surface-green-7)] hover:!bg-[var(--surface-green-7)] active:!bg-[var(--surface-green-7)]",
+				onClick: () => {
+					call(
+						"crm.fcrm.doctype.erpnext_crm_settings.erpnext_crm_settings.get_quotation_url",
+						{
+							crm_deal: this.doc.name,
+							organization: this.doc.organization
+						}
+					).then((quotation_url) => {
+						if (quotation_url) {
+							window.open(quotation_url, '_blank');
+						} else {
+							toast.error("Error while creating quotation in ERPNext");
+						}
+					}).catch((e) => {
+						toast.error(e.messages[0] || "Error while creating quotation in ERPNext. Check error log in ERPNext for more details");
+					});
+				}
+			})
+		}
 
-		// Add View Customer Button
+		// Add View Customer Button, then Create Quotation so it stays last
 		call("crm.fcrm.doctype.erpnext_crm_settings.erpnext_crm_settings.get_customer_link", {
 			crm_deal: this.doc.name
 		}).then((customer_url) => {
@@ -684,6 +688,8 @@ def get_crm_form_script():
 			}
 		}).catch((e) => {
 			toast.error(e.messages[0] || "Error while fetching customer link from ERPNext. Check error log in ERPNext for more details");
+		}).finally(() => {
+			addQuotationAction();
 		});
 	}
 }
