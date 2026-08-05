@@ -20,7 +20,7 @@
     >
       <div class="flex h-screen flex-col text-ink-gray-9">
         <div class="text-lg-medium text-ink-gray-8 px-4 pt-[15px] pb-3">
-          {{ __('More Options') }}
+          {{ __('Activities') }}
         </div>
         <nav class="flex flex-col px-2 gap-0.5">
           <button
@@ -73,6 +73,6 @@ onClickOutside(
   () => {
     if (visible.value) visible.value = false
   },
-  { ignore: ['#more-btn'] },
+  { ignore: ['#activities-btn'] },
 )
 </script>

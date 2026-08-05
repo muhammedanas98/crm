@@ -45,13 +45,13 @@
             />
             <SidebarLink
               v-if="view.hideLabel"
-              id="more-btn"
-              :label="__('More')"
-              :icon="MoreIcon"
+              id="activities-btn"
+              :label="__('Activities')"
+              :icon="ActivitiesIcon"
               rail
               dark
               class="my-[1.5px]"
-              @click="() => (showMoreMenu = !showMoreMenu)"
+              @click="() => (showActivitiesMenu = !showActivitiesMenu)"
             />
             <SidebarLink
               v-if="view.hideLabel"
@@ -128,7 +128,7 @@
       />
     </div>
     <Notifications />
-    <MoreMenu v-model="showMoreMenu" />
+    <ActivitiesMenu v-model="showActivitiesMenu" />
     <AppsMenu v-model="showAppsMenu" />
     <Settings />
     <HelpModal
@@ -152,7 +152,7 @@
 
 <script setup>
 import DashboardIcon from '~icons/lucide/layout-dashboard'
-import MoreIcon from '~icons/lucide/rectangle-ellipsis'
+import ActivitiesIcon from '~icons/lucide/activity'
 import AppsIcon from '~icons/lucide/layout-grid'
 import HandshakeIcon from '~icons/lucide/handshake'
 import CRMLogo from '@/components/Icons/CRMLogo.vue'
@@ -175,7 +175,7 @@ import HelpIcon from '@/components/Icons/HelpIcon.vue'
 import SidebarLink from '@/components/SidebarLink.vue'
 import Notifications from '@/components/Notifications.vue'
 import NotificationsIcon from '@/components/Icons/NotificationsIcon.vue'
-import MoreMenu from '@/components/MoreMenu.vue'
+import ActivitiesMenu from '@/components/ActivitiesMenu.vue'
 import AppsMenu from '@/components/AppsMenu.vue'
 import Settings from '@/components/Settings/Settings.vue'
 import SalesHierarchyBanner from '@/components/SalesHierarchyBanner.vue'
@@ -221,7 +221,7 @@ const showSalesHierarchyBanner = ref(!!window.show_sales_hierarchy_banner)
 // scroll-down affordance for the nav list, shown only while more items sit below the fold
 const navScroll = ref(null)
 const canScrollDown = ref(false)
-const showMoreMenu = ref(false)
+const showActivitiesMenu = ref(false)
 const showAppsMenu = ref(false)
 let navResizeObserver = null
 
